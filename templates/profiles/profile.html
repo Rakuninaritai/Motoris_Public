@@ -1,0 +1,367 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+
+{% block title %}
+  {% if target_user %}
+    {{ target_user.username }}のページ
+  {% else %}
+    {{ user.username }}のマイページ
+    {% endif %}
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-1"></div>
+
+      <div class="col-10">
+        <div class="row mt-5">
+          <div class="col-12 col-md-2">
+            <div class="profile-image border rounded-circle overflow-hidden" style="width: 150px; height: 150px;">
+              {% if target_user %}
+              <img src="{{ target_user.profile.get_image_url }}" alt="プロフィール画像" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+              {% else %}
+              <img src="{{ user.profile.get_image_url }}" alt="プロフィール画像" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-1"></div>
+          <div class="col">
+            <h2>
+              {% if target_user %}
+                  {{ target_user.username }}
+              {% else %}
+                  {{ user.username }}
+              {% endif %}</h2>
+            <h6 class="kaigyousanten">出品件数: {{ my_listings|length }}台</h6>
+          </div>
+          <div class="col-2">
+            {% if target_user == None %}
+                <a href="{% url 'profile_edit' %}"><img src="{% static 'images/setting.jpg' %}" alt="" width="30px" height="31px" /></a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="mt-2 mb-5">
+          {% if user.profile.bio %}
+            <p class="profile-freetext kaigyousanten">{{ user.profile.bio }}</p>
+          {% else %}
+            <p class="profile-freetext">自己紹介は設定されていません...</p>
+          {% endif %}
+        </div>
+        <ul class="nav nav-tabs">
+          <li class="nav-item w-25">
+            <a class="nav-link active" data-bs-toggle="tab" href="#shinchaku">新着<br>情報</a>
+          </li>
+          <li class="nav-item w-25">
+            <a class="nav-link" data-bs-toggle="tab" href="#shuppin">出品<br>履歴</a>
+          </li>
+          <li class="nav-item w-25">
+            <a class="nav-link" data-bs-toggle="tab" href="#kounyuu">購入<br>履歴</a>
+          </li>
+          <li class="nav-item w-25">
+            <a class="nav-link" data-bs-toggle="tab" href="#iine">いい<br>ね!</a>
+          </li>
+        </ul>
+
+        <!-- ========================= -->
+        <!-- 新着情報 -->
+        <!-- ========================= -->
+        <div class="tab-content">
+          <div class="tab-pane fade show active mt-5" id="shinchaku">
+            <div class="result-box">
+
+              {% for post in timeline %}
+                <div class="result-item">
+
+
+                  
+                  <!-- 出品,いいね -->
+                  {% if post.model_name in 'CInfoModel MCInfoModel BInfoModel' %}
+                    <div class="userdata mb-0">
+                      {% if target_user %}
+                      <img src="{{ target_user.profile.get_image_url }}" class="rounded-circle" style="object-fit: cover;">
+                      {% else %}
+                      <img src="{{ user.profile.get_image_url }}" class="rounded-circle" style="object-fit: cover;">
+                      {% endif %}
+                      <p class="result-status mb-0">
+                        {% if post.action_type == 'like' %}
+                          商品にいいねしました！
+                        {% elif post.action_type == 'purchase' %}
+                            商品を購入しました！
+                        {% else %}
+                          商品を出品しました！
+                        {% endif %}
+                        <span class="timestamp">{{ post.created_at }}</span>
+                    </div>
+
+                    <a href="
+                          {% if post.model_name == 'CInfoModel' %}
+                        {% url 'shohin:shohin_car' post.id %}
+                      {% elif post.model_name == 'MCInfoModel' %}
+                        {% url 'shohin:shohin_motorBike' post.id %}
+                      {% elif post.model_name == 'BInfoModel' %}
+                        {% url 'shohin:shohin_bike' post.id %}
+
+                      {% endif %}">
+                      <div class="result-table">
+                        <div class="result-image">
+                          <img src="{{ post.images.first.files.url }}" class="post_image" />
+                        </div>
+                        <div class="result-text">
+                          <h4 class="result-title txt-limit">
+                            {% if post.model_name == 'BInfoModel' %}
+                              {{ post.modelname }}
+                            {% else %}
+                              {{ post.modelname.name }}
+                            {% endif %}
+                          </h4>
+                          <p>￥{{post.price|intcomma}}  /  {{post.condition}}</p>
+                          
+                          <p class="result-detail txt-limit">概要：{{ post.explanation }}</p>
+
+                          <div class="result-place">
+                            <img src="{% static 'images/location.png' %}" class="location-mark" />
+                            <p>{{ post.prefectures }}</p>                          </div>
+                          
+                          <div class="result-comment">
+                            <img src="{% static '/images/chat.png' %}" class="chat-mark" />
+                            <p>{{ post.comments.count }} コメント</p>
+                          </div>
+
+                        </div>
+                      </div>
+                    </a>
+
+
+                  
+                  <!-- イベント -->
+                  {% elif post.model_name in 'EventPost' %}
+                    <div class="userdata mb-0">
+                      {% if target_user %}
+                      <img src="{{ target_user.profile.get_image_url }}" class="rounded-circle" style="object-fit: cover;">
+                      {% else %}
+                      <img src="{{ user.profile.get_image_url }}" class="rounded-circle" style="object-fit: cover;">
+                      {% endif %}
+                      <p class="result-status">イベントの開催告知をしました！<span class="timestamp">{{ post.created_at }}</span></p>
+                    </div>
+
+                    <a href="{% url 'event_detail' post.pk %}">
+                      <div class="result-table">
+
+                        <div class="result-image">
+                          <img src="{{ post.images.first.image.url }}" class="post_image" />
+                        </div>
+
+                        <div class="result-text">
+                          <h3 class="result-title txt-limit">{{ post.title }}</h3>
+                          <p class="result-date">{{ post.event_date|date:"Y年m月d日" }}</p>
+                          <p class="result-detail txt-limit">概要：{{ post.free_text }}</p>
+                          <div class="result-place">
+                            <img src="{%static 'images/location.png' %}" class="location-mark" />
+                            <p>{{ post.prefecture_field }}-{{ post.address }}</p>
+                          </div>
+        
+                          <div class="result-comment">
+                            <img src="{% static '/images/chat.png' %}" class="chat-mark" />
+                            <p>{{ post.comments.count }} コメント</p>
+                          </div>
+                        </div>
+
+                      </div>
+                    </a>
+
+
+                  
+                  <!-- イベント参加 -->
+                  {% elif post.model_name in 'EventEntry' %}
+                    <div class="userdata mb-0">
+                      {% if target_user %}
+                      <img src="{{ target_user.profile.get_image_url }}" class="rounded-circle" style="object-fit: cover;">
+                      {% else %}
+                      <img src="{{ user.profile.get_image_url }}" class="rounded-circle" style="object-fit: cover;">
+                      {% endif %}
+                      <p class="result-status">イベントに参加予定です！<span class="timestamp">{{ post.created_at }}</span></p>
+                    </div>
+
+                    <a href="{% url 'event_detail' post.pk %}">
+                      <div class="result-table">
+
+                        <div class="result-image">
+                          <img src="{{ post.event.images.first.image.url }}" class="post_image" />
+                        </div>
+
+                        <div class="result-text">
+                          <h3 class="result-title txt-limit">{{ post.event.title }}</h3>
+                          <p class="result-date">{{ post.event.event_date|date:"Y年m月d日" }}</p>
+                          <p class="result-detail txt-limit">概要：{{ post.event.free_text }}</p>
+                          <div class="result-place">
+                            <img src="{%static 'images/location.png' %}" class="location-mark" />
+                            <p>{{ post.event.prefecture_field }}-{{ post.event.address }}</p>
+                          </div>
+        
+                          <div class="result-comment">
+                            <img src="{% static '/images/chat.png' %}" class="chat-mark" />
+                            <p>{{ post.event.comments.count }} コメント</p>
+                          </div>
+                        </div>
+
+                      </div>
+                    </a>
+                  {% endif %}
+
+
+                </div>
+              {% empty %}
+                <li>投稿がありません。</li>
+              {% endfor %}
+            </div>
+          </div>
+
+
+
+          <!-- ========================= -->
+          <!-- 出品 -->
+          <!-- ========================= -->
+          <div class="tab-pane fade mt-5" id="shuppin">
+            <div class="row row-cols-1 cols-sm-2 row-cols-md-4">
+              {% for post in my_listings %}
+                <div class="col">
+                  
+                  <a href="
+                    {% if post.model_name == 'CInfoModel' %}
+                      {% url 'shohin:shohin_car' post.id %}
+                    {% elif post.model_name == 'MCInfoModel' %}
+                      {% url 'shohin:shohin_motorBike' post.id %}
+                    {% elif post.model_name == 'BInfoModel' %}
+                      {% url 'shohin:shohin_bike' post.id %}
+                    {% endif %}">
+
+                    <div class="card mb-5" style="max-width: 25rem">
+                      <!-- カード画像 最初1枚だけ 上部配置 -->
+                      {% if post.pk and post.images.first %}
+                        <img class="card-img-top shohin_img" width="200px" height="120px" src="{{ post.images.first.files.url }}" />
+                      {% endif %}
+
+                      <!-- カード本文 -->
+                      <div class="card-body">
+                        <h4 class="card-title mb-1  kaigyousanten">
+                          {% if post.model_name == 'BInfoModel' %}
+                            {{ post.modelname }}
+                          {% else %}
+                            {{ post.modelname.name }}
+                          {% endif %}
+                        </h4>
+                        <p class="card-text">商品説明</p>
+                        <p class="card-text  kaigyousanten">{{ post.explanation }}</p>
+                        <p class="card-text text-end text-danger">￥{{ post.price|intcomma }}</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              {% empty %}
+                <p>出品履歴はありません</p>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- ========================= -->
+          <!-- 購入 -->
+          <!-- ========================= -->
+          <div class="tab-pane fade mt-5" id="kounyuu">
+            <div class="row row-cols-1 cols-sm-2 row-cols-md-4">
+              {% for post in my_purchases %}
+                <div class="col">
+                  
+                  <a href="
+                    {% if post.model_name == 'CInfoModel' %}
+                      {% url 'shohin:shohin_car' post.id %}
+                    {% elif post.model_name == 'MCInfoModel' %}
+                      {% url 'shohin:shohin_motorBike' post.id %}
+                    {% elif post.model_name == 'BInfoModel' %}
+                      {% url 'shohin:shohin_bike' post.id %}
+                    {% endif %}">
+                  
+                    <div class="card mb-5" style="max-width: 25rem">
+                      <!-- カード画像 最初1枚だけ 上部配置 -->
+                      {% if post.pk and post.images.first %}
+                        <img class="card-img-top shohin_img" src="{{ post.images.first.files.url }}" />
+                      {% endif %}
+                    
+                      <!-- カード本文 -->
+                      <div class="card-body">
+                        <h4 class="card-title mb-1  kaigyousanten">
+                          {% if post.model_name == 'BInfoModel' %}
+                            {{ post.modelname }}
+                          {% else %}
+                            {{ post.modelname.name }}
+                          {% endif %}
+                        </h4>
+                        <p class="card-text">商品説明</p>
+                        <p class="card-text kaigyousanten">{{ post.explanation }}</p>
+                        <p class="card-text text-end text-danger">￥{{ post.price|intcomma }}</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              {% empty %}
+                <p>購入履歴はありません</p>
+              {% endfor %}
+            </div>
+          </div>
+
+
+          <!-- ========================= -->
+          <!-- いいね -->
+          <!-- ========================= -->
+          <div class="tab-pane fade mt-5" id="iine">
+            <div class="row row-cols-1 cols-sm-2 row-cols-md-4">
+              {% for post in my_likes %}
+                <div class="col">
+                  
+                  <a href="
+                    {% if post.model_name == 'CInfoModel' %}
+                      {% url 'shohin:shohin_car' post.id %}
+                    {% elif post.model_name == 'MCInfoModel' %}
+                      {% url 'shohin:shohin_motorBike' post.id %}
+                    {% elif post.model_name == 'BInfoModel' %}
+                      {% url 'shohin:shohin_bike' post.id %}
+                    {% endif %}">
+
+                    <div class="card mb-5" style="max-width: 25rem">
+                      <!-- カード画像 最初1枚だけ 上部配置 -->
+                      {% if post.pk and post.images.first %}
+                        <img class="card-img-top shohin_img"  src="{{ post.images.first.files.url }}" />
+                      {% endif %}
+
+                      <!-- カード本文 -->
+                      <div class="card-body">
+                        <h4 class="card-title mb-1 kaigyousanten">
+                          {% if post.model_name == 'BInfoModel' %}
+                            {{ post.modelname }}
+                          {% else %}
+                            {{ post.modelname.name }}
+                          {% endif %}
+                        </h4>
+                        <p class="card-text">商品説明</p>
+                        <p class="card-text  kaigyousanten">{{ post.explanation }}</p>
+                        <p class="card-text text-end text-danger">￥{{ post.price|intcomma }}</p>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              {% empty %}
+                <p>いいね履歴はありません</p>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

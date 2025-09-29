@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/formpage.css' %}" />
+{% endblock %}
+
+{% load widget_tweaks %}
+<!--エラーで使う関数を呼び出すファイルをload-->
+{% load custom_filter %}
+
+{% block content %}
+  <body>
+
+    <div class="box">
+
+      <h1>お問い合わせ</h1>
+
+      <form action="{% url 'formpage' %}" method="POST">
+    
+      <div class="Form">
+        <div class="Form-Item">
+          <p class="Form-Item-Label">{{ form.Name.label_tag }}<span class="Form-Item-Label-Required">必須</span></p>
+          <div class="Form-Item-Input">{{ form.Name|attr:"id:form_name" | attr:"placeholder:ユーザー名を入力" | attr:"required" }}</div>
+        </div>
+        <div class="Form-Item">
+          <p class="Form-Item-Label">{{ form.Tell.label_tag }}<span class="Form-Item-Label-Required">必須</span></p>
+          <div class="Form-Item-Input">{{ form.Tell|attr:"id:form_tell" | attr:"placeholder:電話番号を入力" | attr:"required" }}</div>
+        </div>
+        <div class="Form-Item">
+          <p class="Form-Item-Label">{{ form.Mail.label_tag }}<span class="Form-Item-Label-Required">必須</span></p>
+          <div class="Form-Item-Input">{{ form.Mail|attr:"id:form_email" | attr:"placeholder:メールアドレスを入力" | attr:"required" }}</div>
+        </div>
+        <div class="Form-Item">
+          <p class="Form-Item-Label isMsg">{{ form.Text.label_tag }}<span class="Form-Item-Label-Required">必須</span></p>
+          <div class="Form-Item-Input">{{ form.Text|attr:"id:form_text" | attr:"placeholder:お問い合わせ内容を入力" | attr:"required" }}</div>
+        </div>
+      </div>      
+
+      {% csrf_token %}
+      <div class="Input-Item">
+        <input type="submit" value="送信">
+      </div>
+
+      </form>
+
+    </div>
+    
+  </body>
+</html>
+{% endblock content %}

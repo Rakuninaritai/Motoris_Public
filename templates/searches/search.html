@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+
+{% block title %}商品検索{% endblock %}
+
+{% load static %}
+{% load humanize %}
+{% load tuika %}
+{% load widget_tweaks %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/search.css' %}" />
+<!--mobirityを選択した値を読み込み反映js、deferで全部コンテンツ読み込み終わってから実行-->
+<script src="{% static 'js/search.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-3">
+            <div class="m-3">
+              <div class="row">
+                <h4 class="col-8">絞り込み</h4>
+                <!--<a href="{% url 'search' '*' %}" class=" col btn btn-primary ">解除</a>-->
+              </div>
+              <!--モビリティ選択フェーズ-->
+              <div class="m-1">
+                <h5>モビリティ</h5>
+                <select class="form-select" id="mbs" onchange="sentahyouzi()">
+                  <option value="sougou">総合</option>
+                  <option value="car">車</option>
+                  <option value="mc">バイク</option>
+                  <option value="by">自転車</option>
+                </select>
+              </div>
+              <!--デフォルトで何を表示するか(from views)、見えない-->
+              <div id="mbb" hidden>
+                {{hyouzi}}
+              </div>
+              <!--formゾーン-->
+              <div class="m-1">
+                <div id="sougoufmhyouzi" class="d-none">
+                  {%if kensaku != ""%}
+                    <a href="{% url 'search' '*' %}" class="btn btn-primary mt-1">検索解除</a>
+                  {%endif%}
+                </div>
+
+                <div id="carfmhyouzi" class="d-none">
+                  <!--エラー表示部-->
+                  {% if carf.errors %}
+                    <div class="alert alert-danger">
+                      <strong>エラー</strong>
+                      <hr>
+                      <!--各フィールドごとのエラーを取得-->
+                      {% for error_list in carf.errors.values %}
+                          <!--それぞれのエラーを表示-->
+                          {% for error in error_list %}
+                              <p>{{ error }}</p>
+                          {% endfor %}
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                  <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="mbt" value="car">
+                    <h5>{{carf.maker.label}}</h5>
+                    {{carf.maker |add_class:'form-control' |attr:"id:car_maker"}}
+                    <h5>{{carf.modelname.label}}</h5>
+                    {{carf.modelname |add_class:'form-control' |attr:"id:car_modelname"}}
+                    <h5>{{carf.color.label}}</h5>
+                    {{carf.color |add_class:'form-control'}}
+                    <h5>{{carf.modelyear_min.label}}</h5>
+                    {{carf.modelyear_min |add_class:'form-control'}}
+                    <h5>{{carf.modelyear_max.label}}</h5>
+                    {{carf.modelyear_max |add_class:'form-control'}}
+                    <h5>{{carf.price_min.label}}</h5>
+                    {{carf.price_min |add_class:'form-control'}}
+                    <h5>{{carf.price_max.label}}</h5>
+                    {{carf.price_max |add_class:'form-control'}}
+
+                    
+                    <button type="submit" class="btn btn-primary mt-1">絞り込む</button>
+                  </form>
+                </div>
+
+                <div id="mcfmhyouzi" class="d-none">
+                  <!--エラー表示部-->
+                  {% if mcf.errors %}
+                    <div class="alert alert-danger">
+                      <strong>エラー</strong>
+                      <hr>
+                      <!--各フィールドごとのエラーを取得-->
+                      {% for error_list in mcf.errors.values %}
+                          <!--それぞれのエラーを表示-->
+                          {% for error in error_list %}
+                              <p>{{ error }}</p>
+                          {% endfor %}
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                  <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="mbt" value="mc">
+                    <h5>{{mcf.maker.label}}</h5>
+                    {{mcf.maker |add_class:'form-control' |attr:"id:mc_maker"}}
+                    <h5>{{mcf.displacement.label}}</h5>
+                    {{mcf.displacement |add_class:'form-control' |attr:"id:mc_displacement"}}
+                    <h5>{{mcf.modelname.label}}</h5>
+                    {{mcf.modelname |add_class:'form-control' |attr:"id:mc_modelname"}}
+                    <h5>{{mcf.modelyear_min.label}}</h5>
+                    {{mcf.modelyear_min |add_class:'form-control'}}
+                    <h5>{{mcf.modelyear_max.label}}</h5>
+                    {{mcf.modelyear_max |add_class:'form-control'}}
+                    <h5>{{mcf.price_min.label}}</h5>
+                    {{mcf.price_min |add_class:'form-control'}}
+                    <h5>{{mcf.price_max.label}}</h5>
+                    {{mcf.price_max |add_class:'form-control'}}
+
+                    
+                    <button type="submit" class="btn btn-primary mt-1">絞り込む</button>
+                  </form>
+                </div>
+
+                <div id="byfmhyouzi" class="d-none">
+                  <!--エラー表示部-->
+                  {% if byf.errors %}
+                    <div class="alert alert-danger">
+                      <strong>エラー</strong>
+                      <hr>
+                      <!--各フィールドごとのエラーを取得-->
+                      {% for error_list in byf.errors.values %}
+                          <!--それぞれのエラーを表示-->
+                          {% for error in error_list %}
+                              <p>{{ error }}</p>
+                          {% endfor %}
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                  <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="mbt" value="by">
+                    <h5>{{byf.maker.label}}</h5>
+                    {{byf.maker |add_class:'form-control'}}
+                    <h5>{{carf.modelname.label}}</h5>
+                    {{byf.modelname |add_class:'form-control'}}
+                    <!--年代なし-->
+                    <h5>{{byf.price_min.label}}</h5>
+                    {{byf.price_min |add_class:'form-control'}}
+                    <h5>{{byf.price_max.label}}</h5>
+                    {{byf.price_max |add_class:'form-control'}}
+                    <button type="submit" class="btn btn-primary mt-1">絞り込む</button>
+                  </form>
+                </div>
+
+              </div>
+              
+            </div>
+          </div>
+
+          <!-- フローティングラベル絶対やりたーいログインと会員登録 -->
+          <div class="col-12 col-md-9">
+            <div class="m-3">
+              <div class="container">
+                <div class="row">
+                  <div class="col-1">
+                    <div
+                      class="d-flex"
+                      style="border-left: solid 2px black; height: 100%"
+                    ></div>
+                  </div>
+                  <div class="col-11">
+                    <div class="row">
+                      <div class="col-6">
+                        <h4 id="sougoumz" class="d-none">全モビリティ一覧</h4>
+                        <h4 id="carmz" class="d-none">車一覧</h4>
+                        <h4 id="mcmz" class="d-none">バイク一覧</h4>
+                        <h4 id="bymz" class="d-none">自転車一覧</h4>
+                        <small id="kensakumz" class="d-none">
+                          {%if kensaku != ""%}"{{kensaku}}"と検索した結果{%endif%}
+                        </small>
+                        <small id="kenkomz" classs="d-none">
+                          <!--kenkoがnullじゃなければ表示-->
+                          {% if kenko  %}
+                            {% for i in kenko %}"{{i}}"{% endfor %}を絞り込み
+                          {% endif %}
+                        </small>
+                      </div>
+                      <div class="col">
+                        <form action="" class="row">
+                          <div class="form-check col-6">
+                            <label class="form-check-label" for="hanbai_check"
+                              >販売中のみ</label
+                            >
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="hanbai_check" onchange="che()" checked
+                            />
+                          </div>
+
+                          <div class="form-check col">
+                            <label class="form-check-label" for="sitakara_radio"
+                              >安い順</label
+                            >
+                            <input
+                              class="form-check-input" name="uesita"
+                              type="radio"
+                              id="sitakara_radio" onchange="che()" value="sitakara" checked
+                            />
+                          </div>
+
+                          <div class="form-check col">
+                            <label class="form-check-label" for="uekara_radio"
+                              >高い順</label
+                            >
+                            <input
+                              class="form-check-input" name="uesita"
+                              type="radio"
+                              id="uekara_radio" onchange="che()" value="uekara"
+                            />
+                          </div>
+                          
+                        </form>
+                      </div>
+                    </div>
+                    <div>
+                      <!--db表示部分、d-noneでデフォルト非表示-->
+                      <div id="sougoudbhyouzi" class=" row row-cols-1 row-cols-sm-2 row-cols-md-4 d-none ">
+                        {% hyouzidb sougoudb "sougoudb" %}
+                      </div>
+                      
+                      <div id="cardbhyouzi"class=" row row-cols-1 row-cols-sm-2 row-cols-md-4 d-none ">
+                        {% hyouzidb cardb "cardb" %}
+                      </div>
+                      
+                      <div id="bydbhyouzi" class=" row row-cols-1 row-cols-sm-2 row-cols-md-4 d-none ">
+                        {% hyouzidb bydb "bydb" %}
+                      </div>
+                      
+                      <div id="mcdbhyouzi"  class=" row row-cols-1 row-cols-sm-2 row-cols-md-4 d-none ">
+                        {% hyouzidb mcdb "mcdb" %}
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}

@@ -1,0 +1,624 @@
+@charset "utf-8";
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+main {
+    width: 95%;
+    margin: 30px auto;
+    background-color: #eee;
+}
+
+.page-container {
+    display: flex;
+    justify-content: space-between;
+    height: 75vh;
+    margin-bottom: 10px;
+}
+
+.product-container {
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.soldout-overlay {
+    position: absolute;
+    top: 7px;
+    left: 0px;
+    z-index: 1000;
+}
+
+.soldout-image {
+    width: 300px;
+    height: auto;
+    opacity: 0.9;
+}
+
+.image-section {
+    width: 60%;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95%;
+    overflow: hidden;
+    background-color: #555;
+    box-sizing: border-box;
+}
+
+.slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.arrow-left, .arrow-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 15px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.arrow-left {
+    left: 1%;
+}
+
+.arrow-right {
+    right: 1%;
+}
+
+.image-section img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    box-sizing: border-box;
+}
+
+.slides {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slides img {
+    display: none;
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+.slide {
+    display: block;
+}
+
+.product-details {
+    position: relative;
+    width: 39%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-details table {
+    width: 100%;
+    /* margin-bottom: 20px; */
+}
+
+.product-details h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.product-details h1.maker {
+    font-size: 1.5rem;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.product-details h2 {
+    color: red;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.product-details p {
+    margin-bottom: 7px;
+    font-size: 1.2rem;
+}
+
+.product-details p span {
+    font-weight: bold;
+    font-size: 1.6rem;
+}
+
+.product-actions {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+    padding: 20px 0;
+}
+
+.purchase-button {
+    display: flex;
+    padding: 10px 20px;
+    background-color: #DDDDDD;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+    font-size: 2rem;
+    white-space: nowrap;
+}
+
+.purchase-button:hover {
+    background-color: #777777;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.like-button {
+    padding: 10px 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #ff0000;
+    white-space: nowrap;
+}
+
+.like-button:hover {
+    color: #ff5050;
+}
+.like-button.active {
+    color: #ff0000;
+}
+.like-button:not(.active) {
+    color: #999;
+}
+.comment-section {
+    width: 24.5%;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+.seller-section {
+    margin-bottom: 10px;
+}
+
+.seller-info {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #DDD;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+}
+
+.seller-info:hover {
+    background-color: #777;
+    color: white;
+}
+
+.seller-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.seller-name {
+    font-size: 1.3rem;
+    color: #333;
+    font-weight: bold;
+}
+
+.seller-info:hover .seller-name {
+    color: white;
+}
+
+.section-title {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.product-details h1.maker {
+    font-size: 1.5rem;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.comment-list {
+    flex-grow: 1;
+    max-height: 80%;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+}
+
+.comment-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+    padding: 5px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.username {
+    font-weight: bold;
+    color: #333;
+}
+
+.comment-text {
+    margin-left: 50px;
+    margin-bottom: 5px;
+    color: #555;
+    word-wrap: break-word;
+}
+
+.comment-date {
+    margin-left: 50px;
+    font-size: 0.7rem;
+    color: #888;
+}
+
+.comment-input-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.comment-input-section textarea {
+    width: 100%;
+    height: 100px;
+    resize: none;
+}
+
+textarea#comment-input {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+}
+
+button#submit-comment {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button#submit-comment:hover {
+    background-color: #0056b3;
+}
+
+.product-description {
+    background-color: #fff;
+    padding: 20px;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.product-descriptionTitle {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+/* レスポンシブ対応 */
+/* product-details のレスポンシブ調整用に !important を追加 */
+
+/* 1366px以下のデバイス用 */
+@media (max-width: 1366px) {
+    .product-details {
+        position: relative;
+        width: 39%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .product-details table {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .product-details h1 {
+        font-size: 2.7rem;
+        margin-bottom: 10px;
+    }
+    
+    .product-details h1.maker {
+        font-size: 1.2rem;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+    
+    .product-details h2 {
+        color: red;
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+    }
+    
+    .product-details p {
+        margin-bottom: 7px;
+        font-size: 0.9rem;
+    }
+    
+    .product-details p span {
+        font-weight: bold;
+        font-size: 1.3rem;
+    }
+}
+
+/* 1200px以下のデバイス用 */
+@media (max-width: 1200px) {
+    .product-details h1 {
+        font-size: 2.4rem !important;
+    }
+    
+    .product-details h1.maker {
+        font-size: 1.3rem !important;
+    }
+    
+    .product-details h2 {
+        font-size: 2.1rem !important;
+    }
+    
+    .product-details p {
+        font-size: 1rem !important;
+    }
+    
+    .product-details p span {
+        font-size: 1.4rem !important;
+    }
+    
+    .purchase-button {
+        font-size: 1.8rem !important;
+    }
+}
+
+/* 1024px以下のデバイス用 */
+@media (max-width: 1024px) {
+    .product-details h1 {
+        font-size: 2.2rem !important;
+    }
+    
+    .product-details h1.maker {
+        font-size: 1.2rem !important;
+        margin-bottom: 3px !important;
+    }
+    
+    .product-details h2 {
+        font-size: 1.9rem !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .product-details p {
+        font-size: 0.95rem !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .product-details p span {
+        font-size: 1.2rem !important;
+    }
+    
+    .purchase-button {
+        font-size: 1.6rem !important;
+    }
+    
+    .like-button {
+        font-size: 1.3rem !important;
+    }
+    
+    .product-details table {
+        margin-bottom: 15px !important;
+    }
+}
+
+/* 900px以下のデバイス用 */
+@media (max-width: 900px) {
+    .product-details h1 {
+        font-size: 2rem !important;
+    }
+    
+    .product-details h1.maker {
+        font-size: 1.1rem !important;
+    }
+    
+    .product-details h2 {
+        font-size: 1.7rem !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .product-details p {
+        font-size: 0.9rem !important;
+    }
+    
+    .product-details p span {
+        font-size: 1.1rem !important;
+    }
+    
+    .purchase-button {
+        font-size: 1.4rem !important;
+    }
+}
+
+/* 既存の768px以下のメディアクエリを強化 - !important を追加 */
+@media (max-width: 768px) {
+    /* ページ全体のレイアウトを縦並びに変更 */
+    .page-container {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .product-container {
+        width: 100%;
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+    
+    .image-section {
+        width: 100%;
+        height: 300px;
+        margin-bottom: 10px;
+    }
+    
+    .product-details {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .product-details table {
+        width: 100%;
+    }
+    
+    .product-details h1 {
+        font-size: 2rem;
+    }
+    
+    .product-details h1.maker {
+        font-size: 1.2rem;
+    }
+    
+    .product-details h2 {
+        font-size: 1.8rem;
+    }
+    
+    .product-details p {
+        font-size: 1rem;
+    }
+    
+    .product-details p span {
+        font-size: 1.2rem;
+    }
+    
+    .comment-section {
+        width: 100%;
+        max-height: 500px;
+    }
+    
+    .comment-list {
+        height: 600px;
+    }
+    
+    .product-description {
+        margin-top: 15px;
+        font-size: 1rem;
+    }
+    
+    .purchase-button, .like-button {
+        padding: 8px 15px;
+        font-size: 1rem;
+    }
+    
+    .seller-info {
+        padding: 8px;
+    }
+    
+    .seller-icon {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .seller-name {
+        font-size: 1.1rem;
+    }
+}
+
+/* 480px以下のスマートフォン用 */
+@media (max-width: 480px) {
+    .product-details h1 {
+        font-size: 1.5rem !important;
+    }
+    
+    .product-details h1.maker {
+        font-size: 0.9rem !important;
+    }
+    
+    .product-details h2 {
+        font-size: 1.3rem !important;
+    }
+    
+    .product-details p {
+        font-size: 0.8rem !important;
+    }
+    
+    .product-details p span {
+        font-size: 0.9rem !important;
+    }
+    
+    .purchase-button {
+        font-size: 0.9rem !important;
+        padding: 6px 12px !important;
+    }
+    
+    .like-button {
+        font-size: 0.9rem !important;
+        padding: 6px 12px !important;
+    }
+}

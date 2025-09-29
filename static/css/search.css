@@ -1,0 +1,30 @@
+main{
+  min-height: 80.7vh;
+}
+.kesu{
+  display: none;
+}
+.kaigyousanten {
+  white-space: nowrap !important;       /* テキストを1行にする */
+  overflow: hidden;          /* はみ出た部分を非表示にする */
+  text-overflow: ellipsis;   /* はみ出たテキストを「…」で表示する */
+}
+/* 商品の画像の大きさ */
+.shohin_img{
+  /* max-width: 200px; */
+  max-height: 120px;
+  object-fit: cover; /* 枠いっぱい表示 */
+}
+/* 1) タブレット(〜991px) */
+  /* 画面幅991px以下の場合 */
+  @media (max-width: 991px) {
+    .shohin_img{
+      max-width: 500px;/* maxの上限なし(枠の幅が結局max) */
+      max-height: 520px;
+    }
+  }
+  
+  /* 2) スマホ(〜767px) */
+  /* galaxyZfold5 */
+  @media (max-width: 767px) {
+  }

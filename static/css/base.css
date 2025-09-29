@@ -1,0 +1,201 @@
+/* main内の設定 */
+main{
+  background-color: #fefefe;
+}
+
+/* アカウントのボタンアイコン設定　*/
+div.btn {
+  margin: 0 20px;
+  padding: 0;
+  /* border: 2px solid #ccc; 枠線（オプション） */
+}
+.account-btn {
+  width: 40px; /* 画像の幅を調整 */
+  height: 40px; /* 画像の高さを調整 */
+  object-fit: cover; /* 画像を正方形に収める */
+  border-radius: 50%; /* 丸型にする */
+  border: 2px solid #fff; /* 枠線（オプション） */
+}
+
+/* 出品ボタン　*/
+
+/* ナビゲーションの背景色 */
+.bg-or{
+  background-color: #FF9900;
+}
+
+.bg-ccc {
+  background-color: #fefefe;
+}
+/* ナビゲーションの背景色とbtnのhoverがかぶったから色変 */
+.hv-888:hover {
+  background-color: #eee;
+}
+/* ハンバーガーメニューの背景 */
+.bg-bbb {
+  background-color: #fefefe;
+}
+/* bodyの背景色 */
+.bg-eee {
+  background-color: #eee;
+}
+/* body内の設定 */
+.body {
+  display: flex;
+  flex-direction: column;
+}
+/* 子要素を縦横中央に配置して、縦並び */
+.fccc {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  align-items: center; /* 増えた　*/ 
+}
+/* mainのcontainarのbtnの色とhover (ログイン)*/
+.bg-777 {
+  background-color: #777777;
+  /* 色はaのstyleで変更できるがhoverはできないので、hoverだけclassにするとstyleの方が強いので(順関係なく)hover前のbgもclassに */
+}
+.bg-777:hover {
+  background-color: #ccc;
+}
+
+.form-control{
+  font-size: 1.1rem;
+}
+
+.searchbtn button{
+  font-size: 1.1rem;
+
+}
+
+.shpnbtn{
+  font-size: 1.1rem;
+}
+
+/* ハンバーガー */ 
+.list-group-item {
+  position: relative;
+}
+
+.list-group-item a { /* li全体をクリックしたい　*/
+  display: block; /* <a>をブロック要素に */
+  height: 100%;   /* 高さを親要素に合わせる */
+  width: 100%;    /* 横幅を100%に */
+  text-decoration: none; /* 下線を消す */
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+.txt-limit {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+  max-height: 3em;
+}
+footer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  background-color: #fff ;
+}
+
+footer a{
+  display: block;
+  justify-content: flex-start;
+}
+
+
+.fun-button {
+  padding: 15px 30px;
+  font-size: 20px;
+  background-color: #ff6b6b;
+  align-items: center;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.fun-button:hover {
+  background-color: #ff5252;
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+}
+
+.fun-button:active {
+  transform: translateY(2px);
+}
+
+.big-text {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 80px;
+  font-weight: bold;
+  color: #333;
+  text-shadow: 3px 3px 0 #ff6b6b;
+  z-index: 1000;
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  text-align: center;
+}
+
+.big-text.active {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.text-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: none;
+  z-index: 999;
+}
+
+.text-container.active {
+  display: block;
+}
+/* 1) タブレット(〜991px) */
+@media (max-width: 991px) {
+  /* 検索バー、検索ボタン非表示 */
+  .searchinput,.searchbtn{
+    display: none;
+  }
+}
+
+/* 2) スマホ(〜767px) */
+/* galaxyZfold5 */
+@media (max-width: 767px) {
+  /* 出品ボタン非表示 */
+  .shpnbtn{
+    display: none!important;
+  }
+  /* アカウントボタン非表示 */
+  .acbtn{
+    display: none;
+  }
+  /* ナビゲーションロゴレスポンシブ */
+  /* その他のページでも使用 */
+  .vlgi{
+    max-width: 100%; /* 親要素の幅を超えないようにする */
+    height: auto;    /* アスペクト比を維持 */
+    display: block;  /* ブロック要素にして隙間を消す */
+  }
+}

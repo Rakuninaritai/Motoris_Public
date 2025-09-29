@@ -1,0 +1,540 @@
+{% extends 'base.html' %}
+
+{% block title %}乗り物診断{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/shindan.css' %}" />
+{% endblock %}
+
+
+
+{% block content %}
+    {% comment %} <main class="d-flex main"> {% endcomment %}
+    <div class="fccc align-items-center w-100 ">
+      <!-- mainのコンテナの -->
+      <div class="container bg-white main-containar m-3">
+        <!-- ロゴとログイン -->
+        <div class="mb-1 fccc ">
+          <!-- ↓ロゴ -->
+          <img
+            class=""
+            src="{% static 'images/logo.png' %}"
+            width="260px"
+            height="60px"
+            alt=""
+          />
+        </div>
+        <!-- 診断機能ゾーン -->
+        <div class="box-top"></div>
+        <div class="box ">
+          <!-- 診断機能の文字 -->
+          <h2 class="">乗り物診断</h2>
+
+          <!-- 基本の質問 -->
+          <div class="question active text-center">
+            <p class="que-num">質問1</p>
+            <p class="que-text">運動するのが好き</p>
+            <!-- ボタンをクリックすると nextQuestion('yes') 関数が呼び出され、回答が保存される -->
+            <button class="btn btn-primary" onclick="nextQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="nextQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3" >
+              <div class="progress-bar" style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="question">
+            <p class="que-num">質問2</p>
+            <p class="que-text">風を切るのが好き</p>
+            <button class="btn btn-primary bot" onclick="nextQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary bot" onclick="nextQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3" >
+              <div class="progress-bar" style="width: 8.633%"></div>
+            </div>
+          </div>
+          <div class="question">
+            <p class="que-num">質問3</p>
+            <p class="que-text">一人が好き</p>
+            <button class="btn btn-primary" onclick="nextQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="nextQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 16.66%"></div>
+            </div>
+          </div>
+          <div class="question">
+            <p class="que-num">質問4</p>
+            <p class="que-text">夜中にカップラーメンとか食べちゃう</p>
+            <button class="btn btn-primary" onclick="nextQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="nextQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 24.99%"></div>
+            </div>
+          </div>
+          <div class="question">
+            <p class="que-num">質問5</p>
+            <p class="que-text">乗り物と一体になりたい</p>
+            <button class="btn btn-primary" onclick="nextQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="nextQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 33.29%"></div>
+            </div>
+          </div>
+          <div class="question">
+            <p class="que-num">質問6</p>
+            <p class="que-text">一番大切なものは</p>
+            <button class="btn btn-primary" onclick="nextQuestion('yes')">
+              お金
+            </button>
+            <button class="btn btn-secondary" onclick="nextQuestion('no')">
+              愛
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 41.59%"></div>
+            </div>
+          </div>
+
+          <!-- 自転車の質問 -->
+          <div class="question_bicycle">
+            <p class="que-num">質問7</p>
+            <p class="que-text">利便性重視</p>
+            <!-- ボタンをクリックすると nextQuestion('yes') 関数が呼び出され、回答が保存される -->
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 49.89%"></div>
+            </div>
+          </div>
+          <div class="question_bicycle">
+            <p class="que-num">質問8</p>
+            <p class="que-text">自然が好き</p>
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 58.19%"></div>
+            </div>
+          </div>
+          <div class="question_bicycle">
+            <p class="que-num">質問9</p>
+            <p class="que-text">体力には自信がある</p>
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 66.49%"></div>
+            </div>
+          </div>
+          <div class="question_bicycle">
+            <p class="que-num">質問10</p>
+            <p class="que-text">ごはん派である</p>
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 74.79%"></div>
+            </div>
+          </div>
+          <div class="question_bicycle">
+            <p class="que-num">質問11</p>
+            <p class="que-text">好きなものは最初に食べる</p>
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 83.09%"></div>
+            </div>
+          </div>
+          <div class="question_bicycle">
+            <p class="que-num">質問12</p>
+            <p class="que-text">無人島で必要なもの</p>
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              水
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              スマホ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 91.39%"></div>
+            </div>
+          </div>
+
+          <!-- バイクの質問 -->
+          <div class="question_bike">
+            <p class="que-num">質問7</p>
+            <p class="que-text">洋画をよく見る</p>
+            <!-- ボタンをクリックすると nextQuestion('yes') 関数が呼び出され、回答が保存される -->
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 49.89%"></div>
+            </div>
+          </div>
+          <div class="question_bike">
+            <p class="que-num">質問8</p>
+            <p class="que-text">スピードこそ命</p>
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 58.19%"></div>
+            </div>
+          </div>
+          <div class="question_bike">
+            <p class="que-num">質問9</p>
+            <p class="que-text">利便性も欲しい</p>
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 66.49%"></div>
+            </div>
+          </div>
+          <div class="question_bike">
+            <p class="que-num">質問10</p>
+            <p class="que-text">モテたい</p>
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 74.79%"></div>
+            </div>
+          </div>
+          <div class="question_bike">
+            <p class="que-num">質問11</p>
+            <p class="que-text">カスタムしたい</p>
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 83.09%"></div>
+            </div>
+          </div>
+          <div class="question_bike">
+            <p class="que-num">質問12</p>
+            <p class="que-text">正直乗れればいい</p>
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 91.39%"></div>
+            </div>
+          </div>
+
+          <!-- 車の質問 -->
+          <div class="question_car">
+            <p class="que-num">質問7</p>
+            <p class="que-text">スピードこそ命</p>
+            <!-- ボタンをクリックすると routQuestion('yes') 関数が呼び出され、回答が保存される -->
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 49.89%"></div>
+            </div>
+          </div>
+          <div class="question_car">
+            <p class="que-num">質問8</p>
+            <p class="que-text">人をたくさん乗せたい</p>
+            <button class="btn btn-primary bot" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary bot" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 58.19%"></div>
+            </div>
+          </div>
+          <div class="question_car">
+            <p class="que-num">質問9</p>
+            <p class="que-text">カスタムしたい</p>
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 66.49%"></div>
+            </div>
+          </div>
+          <div class="question_car">
+            <p class="que-num">質問10</p>
+            <p class="que-text">燃費なんて気にしない</p>
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 74.79%"></div>
+            </div>
+          </div>
+          <div class="question_car">
+            <p class="que-num">質問11</p>
+            <p class="que-text">タバコを吸う</p>
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 83.09%"></div>
+            </div>
+          </div>
+          <div class="question_car">
+            <p class="que-num">質問12</p>
+            <p class="que-text">男は黙ってHIPHOP</p>
+            <button class="btn btn-primary" onclick="RouteQuestion('yes')">
+              はい
+            </button>
+            <button class="btn btn-secondary" onclick="RouteQuestion('no')">
+              いいえ
+            </button>
+            <div class="progress mt-3"  >
+              <div class="progress-bar" style="width: 91.39%" ></div>
+            </div>
+          </div>
+
+
+          <!-- 診断結果を表示するエリア -->
+          <div id="result" class="mt-4"></div>
+          <div id="next" class="mb-3"></div>
+
+
+          <script>
+            let currentQuestion = 0; // 現在の質問番号（最初の質問は0）
+            let routeQuestion = 0;
+            const totalQuestions = 12;
+            const answers = []; // ユーザーの回答を保存する配列
+            const routeAnswers = [];
+            window.route = ""; // ルートの初期化をグローバル変数で行う
+
+            const progressBar = document.querySelector(".progress-bar");
+            
+            // 質問を次に進める関数
+            function nextQuestion(answer) {
+              answers.push(answer); // 回答を配列に追加
+            
+              // 現在の質問を非表示にする（activeクラスを外す）
+              const questions = document.querySelectorAll(".question"); // 質問のリストを取得
+              questions[currentQuestion].classList.remove("active"); // 現在の質問を非表示に
+            
+              // 次の質問が存在するか確認
+              currentQuestion++; // 次の質問へ移動
+              if (currentQuestion < questions.length) {
+                // 次の質問を表示（activeクラスを追加）
+                questions[currentQuestion].classList.add("active");
+              } else {
+                baseResult(); // 6つの質問が終わったらルート分岐
+                // すべての質問が終わったら診断結果を表示
+                //showResult();
+              }
+
+            }
+
+            
+            // ルート分岐
+            function baseResult() {
+              const bicycleQuestions = document.querySelectorAll(".question_bicycle");
+              const bikeQuestions = document.querySelectorAll(".question_bike");
+              const carQuestions = document.querySelectorAll(".question_car");
+            
+              const yesCount = answers.filter((a) => a === "yes").length; // 「はい」の回数をカウント
+              // let route = "";
+            
+              if (yesCount >= 5) {
+                window.route = "bicycle"; // 自転車の質問へ
+                bicycleQuestions[routeQuestion].classList.add("active");
+              } else if (yesCount >= 3) {
+                window.route = "bike"; // バイクの質問へ
+                bikeQuestions[routeQuestion].classList.add("active");
+              } else {
+                window.route = "car"; // 車の質問へ
+                carQuestions[routeQuestion].classList.add("active");
+              }
+            
+            }
+            
+            
+            // ルート別の質問を表示
+            function RouteQuestion(answer) {
+              const bicycleQuestions = document.querySelectorAll(".question_bicycle");
+              const bikeQuestions = document.querySelectorAll(".question_bike");
+              const carQuestions = document.querySelectorAll(".question_car");
+            
+              // 選ばれたルートの質問を表示
+              if (window.route === "bicycle") {
+                console.log(routeQuestion);
+                routeAnswers.push(answer);
+                bicycleQuestions[routeQuestion].classList.remove("active");
+                routeQuestion++;
+                if (routeQuestion < bicycleQuestions.length) {
+                  bicycleQuestions[routeQuestion].classList.add("active");
+                } else {
+                  bicycleResult();
+                }
+              } else if (window.route === "bike") {
+                routeAnswers.push(answer);
+                bikeQuestions[routeQuestion].classList.remove("active");
+                routeQuestion++;
+                if (routeQuestion < bikeQuestions.length) {
+                  bikeQuestions[routeQuestion].classList.add("active");
+                } else {
+                  bikeResult();
+                }
+              } else if (window.route === "car") {
+                routeAnswers.push(answer);
+                carQuestions[routeQuestion].classList.remove("active");
+                routeQuestion++;
+                if (routeQuestion < carQuestions.length) {
+                  carQuestions[routeQuestion].classList.add("active");
+                } else {
+                  carResult();
+                }
+              }
+
+            }
+            
+            
+            // 診断結果を表示する関数
+            function bicycleResult() {
+              const yesCount = routeAnswers.filter((a) => a === "yes").length; // 「はい」の回数をカウント
+              const result = document.getElementById("result"); // 結果表示エリアを取得
+              const next = document.getElementById("next"); // リトライエリア取得
+            
+              // 「はい」の回数に応じて結果を表示
+              if (yesCount >= 5) {
+                result.innerHTML =
+                  '<div class="alert alert-success">マウンテンバイクがおすすめです!</div>';
+                next.innerHTML =
+                  '<a href=""><button class="btn btn-primary">もう一度</button></a>';
+              } else if (yesCount >= 3) {
+                result.innerHTML =
+                  '<div class="alert alert-info">ロードバイクがおすすめです!</div>';
+                next.innerHTML =
+                  '<a href=""><button class="btn btn-primary">もう一度</button></a>';
+              } else {
+                result.innerHTML =
+                  '<div class="alert alert-danger">シティサイクルや電動アシスト自転車がおすすめです!</div>';
+                next.innerHTML =
+                  '<a href=""><button class="btn btn-primary ">もう一度</button></a>';
+              }
+            }
+
+            function bikeResult() {
+              const yesCount = routeAnswers.filter((a) => a === "yes").length; // 「はい」の回数をカウント
+              const result = document.getElementById("result"); // 結果表示エリアを取得
+              const next = document.getElementById("next"); // リトライエリア取得
+            
+              // 「はい」の回数に応じて結果を表示
+              if (yesCount >= 5) {
+                result.innerHTML =
+                  '<div class="alert alert-success">ストリートがおすすめです!</div>';
+                next.innerHTML =
+                  '<a href=""><button class="btn btn-primary">もう一度</button></a>';
+              } else if (yesCount >= 3) {
+                result.innerHTML =
+                  '<div class="alert alert-info">アメリカンやネイキッドがおすすめです!</div>';
+                next.innerHTML =
+                  '<a href=""><button class="btn btn-primary">もう一度</button></a>';
+              } else {
+                result.innerHTML =
+                  '<div class="alert alert-danger">スクーターがおすすめです!</div>';
+                next.innerHTML =
+                  '<a href=""><button class="btn btn-primary ">もう一度</button></a>';
+              }
+            }
+
+            function carResult() {
+              const yesCount = routeAnswers.filter((a) => a === "yes").length; // 「はい」の回数をカウント
+              const result = document.getElementById("result"); // 結果表示エリアを取得
+              const next = document.getElementById("next"); // リトライエリア取得
+            
+              // 「はい」の回数に応じて結果を表示
+              if (yesCount >= 5) {
+                result.innerHTML =
+                  '<div class="alert alert-success">アメ車がおすすめです!</div>';
+                next.innerHTML =
+                  '<a href=""><button class="btn btn-primary">もう一度</button></a>';
+              } else if (yesCount >= 3) {
+                result.innerHTML =
+                  '<div class="alert alert-info">ミニバンがおすすめです!</div>';
+                next.innerHTML =
+                  '<a href=""><button class="btn btn-primary">もう一度</button></a>';
+              } else {
+                result.innerHTML =
+                  '<div class="alert alert-danger">軽自動車がおすすめです!</div>';
+                next.innerHTML =
+                  '<a href=""><button class="btn btn-primary ">もう一度</button></a>';
+              }
+            }
+
+            
+            
+          </script>
+        </div>
+      </div>
+      </div>
+
+{% endblock %}

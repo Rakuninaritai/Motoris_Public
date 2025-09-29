@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block title %}イベント投稿{% endblock %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/event.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<div id="event_create">
+  <div class="over">
+    <div class="container">
+
+      <div class="coverh1">
+        <h1>イベント開催</h1>
+      </div>
+
+      <form class="event_create_form" method="post" enctype="multipart/form-data" onsubmit="return checkForm()" style="margin: 10px;" novalidate required>
+        <div class="tover">
+          <p class="text-title">イベント画像</p>
+        </div>
+        {% csrf_token %}
+        {{ event_form.non_field_errors }}
+        {{ event_form.errors }}
+        <div class="iover">
+            <input type="file" name="image" multiple accept="image/*" id="multiple-files" style="display:none" required>
+            <button id="fileSelect" class="ibutton" type="button">画像を選択</button>
+        </div>
+        <div class="tover">
+            <p>＜同時に16枚まで写真を選択できます＞</p>
+        </div>
+        <div class="image-preview"></div>
+        
+        <span class="error-message" id="file-error" style="color:red;"></span>
+        <hr class="dotted-line">
+
+        <div class="info">
+          <div class="tover">
+            <p class="text-title">イベント情報</p>
+          </div>
+          <div>
+            <p class="text-tag">タイトル</p>
+            {{ event_form.title|add_class:'text' }}
+          </div>
+          <div class="explanation">
+            <p class="text-tag">説明（1000文字まで）</p>
+            {{ event_form.free_text|add_class:'text' }}
+            <span class="error-message" id="explanation-error" style="color:red;"></span>
+          </div>
+        </div>
+        <hr class="dotted-line">
+
+        <div class="info">
+          <div class="tover">
+            <p class="text-title">詳細情報</p>
+          </div>
+          <p class="text-tag">開催地（都道府県）</p>
+          {{ event_form.prefecture_field }}
+          <p class="text-tag">市区町村・番地・建物名</p>
+          {{ event_form.address|add_class:'text' }}
+          <p class="text-tag">開催日</p>
+          {{ event_form.event_date }}
+          <p class="text-tag">開始時刻</p>
+          {{ event_form.start_time }}
+          <p class="text-tag">終了時刻</p>
+          {{ event_form.end_time }}
+        </div>
+        <hr class="dotted-line">
+
+        <button type="submit" class="listing_btn">確認</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+{% block extra_js %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+
+  function checkForm() {
+    // ここでフォームをチェックし、問題がなければtrue、あればfalseを返す
+    // console.logを追加して動作確認するのも良いでしょう
+    console.log("Form check running");
+    return true; // 常に送信を許可する（テスト用）
+  }
+
+
+
+  <!-- 画像プレビュー-->
+  $(document).ready(function() {
+    $('#multiple-files').on('change', function(event) {
+      var files = event.target.files;  // 現在選ばれたファイル
+      var previewContainer = $('.image-preview');
+      previewContainer.empty(); // 既存のプレビューをクリア
+  
+      // selectedFilesをリセットし、選択されたファイルのみでプレビューを行う
+      var selectedFiles = Array.from(files);
+  
+      // 新しく追加されたファイルをプレビュー
+      selectedFiles.forEach(function(file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          previewContainer.append(`
+            <div class="image-preview-item">
+              <img src="${e.target.result}" alt="Image preview" class="thumbnail" width="140">
+            </div>
+          `);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+  });
+  </script>
+  <script>
+    const fileSelect = document.getElementById("fileSelect");
+    const fileElem = document.getElementById("multiple-files");
+    
+    fileSelect.addEventListener("click", (e) => {
+      if (fileElem) {
+        fileElem.click();
+      }
+    }, false);
+  </script>
+{% endblock %}

@@ -1,0 +1,114 @@
+main{
+  background-color: #eee;
+}
+
+.kounyukanryou {
+  background-color: #fff;
+  width: 45%;
+  height: auto;
+  margin: 40px auto;
+  padding: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+}
+
+.kounyukanryou h2
+{
+  margin-top: 3vh;
+}
+
+.kounyukanryou figure#logo{
+  height: 10vh;
+}
+.kounyukanryou figure#logo img {
+  width: 50%;
+}
+
+.kounyukanryou a{
+  color: #000;
+}
+.kounyukanryou a#tophe{
+  text-decoration: none;
+}
+
+.kounyukanryou p {
+  font-size: 1.4rem;
+  margin: 20px 0;
+}
+
+.kounyukanryou .shohinkakunin {
+  display: flex;
+  margin: 0 auto;
+  width: 70%;
+  margin-top: 20px;
+  border: 1px solid #000;
+  text-align: left;
+  position: relative;
+}
+
+.shohinkakunin figure#syohinimage{
+  display: flex;
+  height: 150px;
+  width: auto;
+  
+}
+.shohinkakunin figure#syohinimage img {
+  padding: 15px 15px 0 15px;
+  height: 100%;
+  width: auto;
+}
+
+.shohinkakunin div p {
+  margin: 15px 0 0 0;
+  font-size: 1.2rem;
+}
+/* .shohinkakunin p:last-child  */
+/* { 最後の <p> を指定 */
+  /* position: absolute;
+  right: 15px;
+  bottom: 10px;
+  margin: 0; 必要に応じて余白を調整 */
+/* } */
+
+/* .kounyukanryou figure#carlogo{
+  height: 75px;
+  width: auto;
+  position: absolute;
+  right: 50px;
+  bottom: 30px;
+  margin: 0;
+}
+.kounyukanryou figure#carlogo img {
+  height: 100%;
+  width: auto;
+} */
+
+/* フッター */
+/* footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+} */
+/* 1) タブレット(〜991px) */
+@media (max-width: 991px) {
+  /* 商品の画像けした(めんどいから) */
+  .shohinkakunin figure#syohinimage{
+    display: none;
+    
+  }
+  /* を購入しましたにすきま */
+  .shohinkakunin p:last-child 
+{ /* 最後の <p> を指定 */
+  margin: 8px; /* 必要に応じて余白を調整 */
+}
+}
+
+/* 2) スマホ(〜767px) */
+/* galaxyZfold5 */
+@media (max-width: 767px) {
+  /* 幅を広げた */
+  .kounyukanryou {
+    width: 80%;
+  }
+}

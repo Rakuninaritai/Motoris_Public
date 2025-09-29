@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% comment %} ↓baseでもloadしてるのにこっちでもロードしないと効かない(決済ページではうまくいっているのになぜ??) {% endcomment %}
+{% load humanize %}
+
+{% load purchasetuika %}
+
+<!--htmlのtitleに商品名を表示させる(binfo以外は外部キー対応)-->
+{% block title %}決済完了|
+  {% if purchase.class_name == 'Purchase_by' %}
+      {% KMN_mzsu product.modelname %}
+  {% else %}
+      {% KMN_mzsu product.modelname.name %}
+  {% endif %}
+{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/payment_clear.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="kounyukanryou">
+  <figure id="logo">
+    <img src="{% static 'images/logo.png' %}" alt="" class="" />
+  </figure>
+  <h2>
+    決済完了
+  </h2>
+  <p>
+      Motirisのご利用ありがとうございます
+  </p>
+  <div class="shohinkakunin">
+    <figure id="syohinimage">
+      <img src="{{ productimg.files.url }}" alt="{{ product.modelname }}"  class="img-fluid">
+    </figure>
+    
+    <div>
+      {% if purchase.class_name == 'Purchase_by' %}
+        <p >{% KKMN_mzsu product.modelname %}</p>
+        {% else %}
+        <p >{% KKMN_mzsu product.modelname.name %}</p>
+      {% endif %}
+      <p>￥{{product.price|intcomma}}</p>
+      <p >を購入しました</p>
+    </div>
+  </div>
+  <p>
+    <a id="tophe" href="{%url 'purchase_after' purchase.class_name purchase.id %}">
+      購入者との手続きへ　→
+    </a>
+  </p>
+  <p>
+    <a href="{% url 'top' %}">
+      TOPへ
+    </a>
+  </p>
+  <figure id="carlogo">
+    <img src="{% static 'images/car.png' %}" width="108px" height="50px" alt="" />
+  </figure>
+</div>
+{% endblock %}
+

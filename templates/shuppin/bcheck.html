@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}出品内容確認{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/shuppin.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="over">
+    <div class="contena">
+        <div class="coverh1">
+            <h1>出品内容確認</h1>
+        </div>
+        <div class="shimage">
+            <div class="tover">
+                <p class="tuite">選択画像</p>
+            </div>
+            <div class="image-preview">
+                {% for image in images %}
+                    <div class="image-preview-item">
+                        <img src="{{ image }}" alt="Image preview" class="img-thumbnail" width="100%">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <hr class="line">
+        <div class="shsubinfo">
+            <div class="tover">
+                <p class="tuite">入力情報</p>
+            </div>
+            <div class="ncontainer">
+                {% for field in bike_form %}
+                    <div class="kover">
+                        <div class="nleft">
+                            <div class="lb1">
+                                <p class="label1">{{ field.label }}</p>
+                            </div>
+                        </div>
+                        <div class="ncenter">
+                            <div class="lb3">
+                                <p class="label3">：</p>
+                            </div>
+                        </div>
+                        <div class="nright">
+                            <div class="lb2">
+                                {% if field.label == "値段" %}
+                                <p class="label2">￥{{ field.value }}</p>
+                                {% else %}
+                                <p class="label2">{{ field.value }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <hr class="line">
+        <form method="post" action="{% url 'submit_bike' %}">
+            {% csrf_token %}
+            <button type="submit" class="syubtn">出品</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

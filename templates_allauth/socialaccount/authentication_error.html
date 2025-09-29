@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}ソーシャルアカウントエラー{% endblock %}
+
+{% load static %}
+{% load widget_tweaks %}
+{% load custom_filter %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/account.css' %}">
+{% endblock %}
+
+
+
+{% block content %}
+<div class="fccc align-items-center">
+<div class="container-fluid bg-white main-containar back-w">
+  <!-- ロゴとログイン -->
+  <div class="fccc logo-login">
+    <!-- ロゴ -->
+    <img class="mb-1 vlgi" src="{% static 'images/logo.png' %}" width="350px" height="auto" alt="" />
+    <!-- ログインの文字 -->
+    <h3 class="">ソーシャルアカウントエラー</h3>
+    
+  </div>
+  <p class="mt-1 alert alert-danger">
+    ソーシャルアカウント認証時にエラーが発生しました。<br>
+    再度ログインページに戻ってやり直してください。
+  </p>
+
+<!-- ログインへ戻るボタン -->
+<button type="buttomn" class="btn btn-secondary"><a href="{% url 'login' %}" class="text-decoration-none text-light">ログインページへ戻る</a></button>
+
+  <!-- 車の画像(hoverで走る) -->
+  <div class="ms-auto">
+    <img class="car" src="{% static 'images/car.png' %}" alt="" />
+  </div>
+</div>
+</div>
+
+{% endblock %}

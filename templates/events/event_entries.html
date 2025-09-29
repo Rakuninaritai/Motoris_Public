@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/event.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <div class="body-box">
+    <div class="main-box">
+      <h1 class="page-title">参加予定のイベント一覧</h1>
+      <div class="result-box">
+
+        {% for event_post in events %}
+            <a href="{% url 'event_detail' event_post.pk %}">
+              <div class="result-table">
+                <div class="result-image">
+                    <img src="{{ event_post.images.first.image.url }}" class="event-image">
+                </div>
+
+                <div class="result-text">
+                  <h3 class="result-title">{{ event_post.title }}</h3>
+                  <p class="result-date">{{ event_post.event_date|date:"Y年m月d日" }}</p>
+                  <p class="result-detail txt-limit">概要:{{ event_post.free_text }}</p>
+                  <div class="result-place">
+                    <img src="{%static 'images/location.png' %}" class="location-mark" />
+                    <p>{{ event_post.prefecture_field }}-{{ event_post.address }}</p>
+                  </div>
+
+                  <div class="result-comment">
+                    <img src="{% static '/images/chat.png' %}" class="chat-mark" />
+                    <p>{{ event_post.comments.count }} コメント</p>
+                  </div>
+                </div>
+              </div>
+            </a>
+        {% empty %}
+            <li>参加予定のイベントはありません。</li>
+
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

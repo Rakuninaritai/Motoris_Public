@@ -1,0 +1,31 @@
+<!-- sendmail.html -->
+{% comment %} {% extends "base.html" %} {% endcomment %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/formpage.css' %}" />
+{% endblock %}
+
+{% load widget_tweaks %}
+<!--エラーで使う関数を呼び出すファイルをload-->
+{% load custom_filter %}
+
+{% block content %}
+  <h1>お問い合わせに回答する</h1>
+  <form action="{% url 'send_reply' contact.id %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="contact_id" value="{{ contact.id }}">
+
+    <div id="send_text">
+      <label for="subject">件名</label>
+      <input type="text" id="subject" name="subject" required>
+    </div>
+    
+    <div id="send_messaage">
+      <label for="message">本文</label>
+      <textarea id="message" name="message" rows="4" required></textarea>
+    </div>
+
+    <button type="submit">送信</button>
+  </form>
+{% endblock %}

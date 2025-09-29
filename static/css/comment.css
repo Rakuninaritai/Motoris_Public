@@ -1,0 +1,40 @@
+.comment-box {
+    margin: 0 7.5%;
+}
+
+/* コメント投稿フォーム*/
+.comment-form {
+    display: flex;
+    padding: 10px;
+    margin: 0 0 30px 0;
+}
+
+.comment-icon {
+    flex: none;
+    margin: 0 10px 0 0;
+}
+
+.form-group {
+    width: 900px;
+}
+
+#id_content {
+    width: 800px;
+    margin: 0 15% 0 0;
+}
+
+/* コメント表示欄　*/
+/* 親要素にdisplay:list-itemがついててダメと怒られたが　その親要素を特定できなかったため　無理やり動かしている　*/
+li {
+    display: flex;
+}
+
+.comment {
+    padding: 10px;
+    margin: 0 0 20px 0;
+}
+
+.comment_img {
+    width: 300px;
+    height: 300px;
+}

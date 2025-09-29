@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/event.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <div class="body-box">
+    <div class="main-box">
+      <h1 class="page-title">イベント情報</h1>
+      
+
+      <div class="search-box">
+        <h2>絞り込み検索</h2>
+
+
+        <div class="search-list">
+          <form method="get">
+            <div class="search-list-item"><h3>エリア検索</h3>{{ form.region }}</div>
+
+            <div class="search-list-item"><h3>年月検索</h3>{{ form.year_month }}</div>
+            <button type="submit" class="search-button">検索🔍</button>
+            
+          </form>
+        </div>
+
+      </div>
+
+      <div class="result-box">
+
+        <!-- 絞り込み検索をした場合-->
+        {% if request.GET.region %}
+        <h2 class="result-box-title">検索結果一覧</h2>
+        {% else %}
+        <h2 class="result-box-title">最新のイベント一覧</h2>
+        {% endif %}
+
+        {% for event_post in event_posts %}
+            <a href="{% url 'event_detail' event_post.pk %}">
+              <div class="result-table">
+                <div class="result-image">
+                    <img src="{{ event_post.images.first.image.url }}" class="event-image">
+                </div>
+
+                <div class="result-text">
+                  <h3 class="result-title">{{ event_post.title }}</h3>
+                  <p class="result-date">{{ event_post.event_date|date:"Y年m月d日" }}</p>
+                  <p class="result-detail txt-limit">概要:{{ event_post.free_text }}</p>
+                  <div class="result-place">
+                    <img src="{%static 'images/location.png' %}" class="location-mark" />
+                    <p>{{ event_post.prefecture_field }}-{{ event_post.address }}</p>
+                  </div>
+
+                  <div class="result-comment">
+                    <img src="{% static '/images/chat.png' %}" class="chat-mark" />
+                    <p>{{ event_post.comments.count }} コメント</p>
+                  </div>
+                </div>
+              </div>
+            </a>
+        {% empty %}
+            <li>投稿がありません。</li>
+
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,182 @@
+/* div.cover{
+    height: 500px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+a.a-cmb{
+    text-decoration: none;
+}
+div.shuppinbutton{
+    width: 200px;
+    height: 100px;
+    background-color: #ddd;
+    border-radius: 10px;
+    display: flex;
+}
+div.shuppinbutton:hover{
+    background-color: #aaa;
+}
+div.shuppinbutton p{
+    color: #000;
+    text-decoration: none;
+    font-size: 25px;
+    margin: auto;
+} */
+.box{
+    width: 70%;
+    height: 85vh;
+    margin: auto;
+}
+.box h1{
+    width: 40%;
+    margin: 100px auto 50px auto;
+    text-align: center;
+    font-size: 2rem;
+    border-bottom: 1px solid rgb(0, 0, 0, .2);
+}
+.br{
+    display: none;
+}
+.carbike-box{
+    display: flex;
+    justify-content: space-around;
+}
+
+div#bcontainer{
+    width: 35%;
+    margin: 1%;
+    padding: 0%;
+    border-radius: 10px;
+    aspect-ratio: 1 / 1;
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.35);
+}
+.container{
+    border: 1px solid #000;
+}
+.container a{
+    text-decoration: none;
+    color: #000;
+}
+.hcover{
+    height: 35%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container h2{
+    margin: 0 !important;
+    text-align: center;
+}
+.img-box{
+    height: 65%;
+    padding: 3%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* CARボタン */
+.car{
+    border: 2px solid orange;
+}
+.car:hover{
+    background-color: orange;
+}
+.car a{
+    color: orange;
+}
+.car a:hover{
+    color:#fff;
+}
+.car h2{
+    font-size: clamp(1.5rem, -0.25rem + 5.6vw, 5rem);
+}
+.car img{
+    width: 55%;
+}
+
+/* BIKEボタン */
+.bike{
+    border: 2px solid deepskyblue;
+}
+.bike:hover{
+    background-color: deepskyblue
+}
+.bike a{
+    color: deepskyblue;
+}
+.bike a:hover{
+    color: #fff;
+}
+.bike h2{
+    font-size: clamp(1.5rem, -0.25rem + 5.6vw, 5rem);
+}
+.bike img{
+    width: 85%;
+}
+
+/* BICYCLEボタン */
+.bicycle{
+    border: 2px solid seagreen;
+}
+.bicycle:hover {
+    background-color: seagreen;
+}
+.bicycle a{
+    color:seagreen;
+}
+.bicycle a:hover {
+    color:#fff;
+}
+.bicycle h2{
+    /* padding: 10px 0 0 0; */
+    font-size: clamp(1.2rem, -0.7rem + 6.08vw, 5rem);
+}
+.bicycle img{
+    width: 75%;
+}
+
+/* @media screen and (max-width: 1420px) {
+    .br {
+      display: block;
+    }
+} */
+  
+
+/* 1) タブレット(〜991px) */
+@media (max-width: 991px) {
+
+}
+
+/* 2) スマホ(〜767px) */
+@media (max-width: 767px) {
+    .box h1{
+        width: 100%;
+        margin: 25px auto 20px auto;
+        padding: 15px;
+        font-size: 1.6rem;
+    }
+    .br{
+        display: block;
+    }
+    .carbike-box{
+        flex-direction: column;
+    }
+    div#bcontainer{
+        width: 100%;
+        height: 120px;
+        margin: 5% auto;
+    } 
+    .car img{
+        width: 30%;
+    }
+    .bike img{
+        width: 45%;
+    }
+    .bicycle img{
+        width: 35%;
+    }
+}
+
+  

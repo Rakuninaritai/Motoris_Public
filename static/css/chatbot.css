@@ -1,0 +1,75 @@
+ /* トグルボタンのcss */
+ #toggle-chatbot {
+  /* ボタン位置画面固定 */
+  position: fixed;
+  /* 下から20px */
+  bottom: 20px;
+  /* 右から20px */
+  right: 20px;
+  /* 背景青 */
+  background-color:white;
+  /* 文字色ホワイト */
+  color: white;
+  /* 円形 */
+  border-radius: 50%;
+  /* 幅60px */
+  width: 60px;
+  /* 高さ60px */
+  height: 60px;
+  /* フォントサイズ24px */
+  font-size: 24px;
+  /* マウスホバー時のカーソルはポインター */
+  cursor: pointer;
+  /* 軽い影 */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  /* offcanvasより上に配置なにこれ */
+  z-index: 1055;
+}
+/* メッセージ全体のスタイル */
+.message {
+  padding: 8px 12px;
+  margin: 5px 0;
+  border-radius: 15px;
+  max-width: 80%;
+  /* 浮動解除 */
+  clear: both;
+}
+/* ユーザーのメッセージスタイル */
+.message.user {
+  /* 背景ミドリ */
+  background-color: #dcf8c6;
+  /* 右側に配置 */
+  float: right;
+}
+/* AI側のメッセージスタイル */
+.message.assistant {
+  background-color: #f1f1f1;
+  float: left;
+}
+/* off canvas内のチャットエリアのスタイル */
+#chat-area-offcanvas {
+  height: 300px;
+  overflow-y: auto;
+}
+/* chatbotのoffcanvas全体 */
+.chatbotmain{
+  height: 75vh;
+  border-radius: 5px;
+  background-color: white;
+  margin: 0.5rem;
+}
+
+
+/* 1) タブレット(〜991px) */
+@media (max-width: 991px) {
+  /* offcanvasを高さ55%に */
+  .chatbotmain{
+    margin: 0;
+    height: 55vh;
+  }
+}
+
+/* 2) スマホ(〜767px) */
+/* galaxyZfold5 */
+@media (max-width: 767px) {
+}

@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% comment %} ↓baseでもloadしてるのにこっちでもロードしないと効かない(決済ページではうまくいっているのになぜ??) {% endcomment %}
+{% load humanize %}
+
+{% load purchasetuika %}
+
+<!--htmlのtitleに商品名を表示させる(binfo以外は外部キー対応)-->
+{% block title %}購入後|
+    {% if product.class_name == 'BInfoModel' %}
+        {% KMN_mzsu product.modelname %}
+    {% else %}
+        {% KMN_mzsu product.modelname.name %}
+    {% endif %}
+{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/afterbought.css' %}">
+<!--画像プレビュー用js-->
+<script src="{% static 'js/prev.js' %}" defer></script>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="all">
+    <div class="left">
+        <div class="hideback">
+            {% if product.class_name == 'BInfoModel' %}
+                <a href="{% url 'shohin:shohin_bike' product.id %}">
+            {% elif  product.class_name == 'MCInfoModel' %}
+                <a href="{% url 'shohin:shohin_motorBike' product.id %}">
+            {% else  %}
+                <a href="{% url 'shohin:shohin_car' product.id %}">
+            {% endif %}
+                <div class="back">
+                    <h2>戻る</h2>
+                </div>
+            </a>
+        </div>
+        <div class="detail">
+            <div class="img">
+                <!--productimgはproductを外部キーにしてるimagesカラムの最初のテーブル。のfilesカラム(画像)のurlを表示-->
+                <img src="{{productimg.files.url}}" alt="" class="img-fluid"/>
+            </div>
+            <div class="description">
+                <div class="maker">
+                    <p>{{product.maker}}</p>
+                </div>
+                <div class="model">
+                    {% if purchase.class_name == 'Purchase_by' %}
+                        <p >{% KNMN_mzsu product.modelname %}</p>
+                        {% else %}
+                        <p >{% KNMN_mzsu product.modelname.name %}</p>
+                    {% endif %}
+                </div>
+                <div class="price">
+                    <p>￥{{product.price|intcomma}}</P>
+                </div>
+                <div class="hided">
+                    <div class="dleft">
+                        <div class="displacement">
+                            <p class="headline">状態</P>
+                            <p class="contents">{{product.condition}}</P>
+                        </div>
+                        <div class="category">
+                            <p class="headline">出品者</P>
+                            <p class="contents">{% KNU_mzsu product.user.username %}</P>
+                        </div>
+                        <!--<div class="mileage">
+                            <p class="headline">走行距離</P>
+                            <p class="contents">50,000km</P>
+                        </div>-->
+                    </div>
+                    <div class="dright">
+                        <div class="modelyear">
+                            <p class="headline">発送元</P>
+                            <p class="contents">{{product.prefectures}}</P>
+                        </div>
+                        <!--<div class="number">
+                            <p class="headline">ナンバー</P>
+                            <p class="contents">1234</P>
+                        </div>
+                        <div class="condition">
+                            <p class="headline">状態</P>
+                            <p class="contents">{{product.condition}}</P>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container right">
+        <ul class="nav nav-tabs row  tab ">
+            {%for item in nkm %}
+            <li class="nav-item col tc">
+                <a class="nav-link {{item.acti}} d-flex align-items-center justify-content-center " data-bs-toggle="tab" href="#{{item.id}}">{{item.id}}.{{item.title}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content  container under">
+            {%for item in nkm %}
+            <div class="tab-pane fade {% if item.acti == 'active' %} show active {% endif %}" id="{{item.id}}">
+                <div class="text">
+                    <p class="bginfo"style="display: inline;">作業内容</p><p style="display: inline; white-space: nowrap; margin-left:3px;">(作業が完了したらフォームを送信してください。)</P>
+                    {{item.text|linebreaks}}
+                </div>
+
+                <div class="row mt-1 ">
+                    <div class="col">
+                        <div class="zyoutai">
+                            <p class="bginfo"> {%if zokusei == "kounyu"%}出品者の作業画像{%else%}購入者の作業画像{%endif%} </p>
+                            <div class="row row-cols-2 row-cols-md-4 g-3">
+                                <!--{{forloop.counter}}を使えば回数を1から取得できるそれをidとしたい(重複を避けるためziとaiでは変える先頭文字を)-->
+                                {% for ti,im in item.aizi %}
+                                    <div class="col">
+                                        <p class="">{{ ti }}</p>
+                                        <!--imが(画像が入っているなら)-->
+                                        {% if im != "" %}
+                                            <img src="{{ im}}" alt="{{ ti }}"  width="80px" height="50px" data-bs-toggle="modal" data-bs-target="#{{item.id}}ai{{ forloop.counter }}">
+
+                                            <!--モーダル部分-->
+                                            <div class="modal fade" id="{{item.id}}ai{{ forloop.counter }}" tabindex="-1" >
+                                                <!-- modal-dialog-centeredはモーダルを縦横中央に配置lgでモーダルでかめ -->
+                                                <div class="modal-dialog mdodal-dialog-centered modal-lg ">
+                                                    <!-- モーダルコンテンツ部分 -->
+                                                    <div class="modal-content">
+                                                        <!-- モーダルヘッダー -->
+                                                        <div class="modal-header">
+                                                            <!-- モーダルタイトル -->
+                                                            <h5 class="modal-title">{{ti}}</h5>
+                                                            <!-- 閉じるアイコン -->
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                        </div>
+                                                        <!-- モーダル本文 -->
+                                                        <div class="modal-body">
+                                                            <!--classでモーダルに画像を合わせる-->
+                                                            <img src="{{ im}}" alt="{{ ti }}" class="img-fluid">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        {% else %}
+                                            <p>画像がありません</p>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            
+                            </div>
+                        </div>
+
+
+
+                        <div class="row  mt-1">
+                            <div class="col  ">
+                                <div class=" zyoutai">
+                                    <p class="bginfo"> {%if zokusei == "kounyu"%}出品者の状態{%else%}購入者の状態{%endif%} </p>
+                                    <p>{{item.aite|linebreaks}}</p>
+                                </div>
+                            </div>
+                            <div class="col ">
+                                <div class="zyoutai">
+                                    <!---->
+                                    {%if item.acti == "active" and zyoutai != 4 and ziclear != True%}
+                                        <!-- formタグで囲っているから指定しなくてもformでテンプレに送ったformが採用される -->
+                                        <form method="post"  enctype="multipart/form-data">
+                                            <fieldset {{item.bt}} >
+                                                {% csrf_token %}
+                                            <!-- nameでformのフィールド指定、acceptで画像ファイルのみ許可 -->
+                                                <div class="row">
+                                                    <div class="col-8"><p class="bginfo">作業フォーム</p></div>
+                                                    {% comment %} <div class="image-preview col"></div> {% endcomment %}
+                                                </div>
+                                                {% for ti in item.ziti %}
+                                                    <p >{{ti}}を添付してください。</p>
+                                                {% endfor %}
+                                                <input type="file"accept="image/*" name="im" id="id_images" class="col-8">
+                                                <button type="submit" class=" btn btn-primary">送信</button>
+                                            </fieldset>
+                                        </form>
+                                    {%else%}
+                                        <p class="bginfo">作業画像</p>
+                                        <div class="row">
+                                            {% for ti,im in item.zizi %}
+                                            <div class="col">
+                                                <p>{{ ti }}</p>
+                                                {% if im != "" %}
+                                                    <img src="{{ im}}" alt="{{ ti }}"  width="80px" height="50px" data-bs-toggle="modal" data-bs-target="#{{item.id}}zi{{ forloop.counter }} " >
+
+                                                    <!--モーダル部分-->
+                                                    <div class="modal fade" id="{{item.id}}zi{{ forloop.counter }}" tabindex="-1" >
+                                                        <!-- modal-dialog-centeredはモーダルを縦横中央に配置lgでモーダルでかめ -->
+                                                        <div class="modal-dialog mdodal-dialog-centered modal-lg ">
+                                                            <!-- モーダルコンテンツ部分 -->
+                                                            <div class="modal-content">
+                                                                <!-- モーダルヘッダー -->
+                                                                <div class="modal-header">
+                                                                    <!-- モーダルタイトル -->
+                                                                    <h5 class="modal-title">{{ti}}</h5>
+                                                                    <!-- 閉じるアイコン -->
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                                </div>
+                                                                <!-- モーダル本文 -->
+                                                                <div class="modal-body">
+                                                                    <!--classでモーダルに画像を合わせる-->
+                                                                    <img src="{{ im}}" alt="{{ ti }}" class="img-fluid">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <p>画像がありません</p>
+                                                {% endif %}
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    {%endif%} 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

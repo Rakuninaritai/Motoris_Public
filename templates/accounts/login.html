@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}ログイン{% endblock %}
+
+{% load static %}
+
+{% load widget_tweaks %}
+<!--エラーで使う関数を呼び出すファイルをload-->
+{% load custom_filter %}
+{% load socialaccount %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/account.css' %}">
+<script src="{% static 'js/bari/accounts.js' %}" defer></script>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="fccc align-items-center">
+<div class="container-fluid bg-white main-containar back-w ">
+  <!-- ロゴとログイン -->
+  <div class="fccc logo-login">
+    <!-- ロゴ -->
+    <img class="mb-1 vlgi" src="{% static 'images/logo.png' %}" width="350px" height="auto" alt="" />
+    <!-- ログインの文字 -->
+    <h3 class="">ログイン</h3>
+  </div>
+
+
+
+  <!-- form -->
+  <div class="mb-5 fccc">
+    <form method="POST">
+      {% csrf_token %}
+      <!-- 会員登録リンク -->
+      <div class="mb-3">
+        <!-- urls.pyのname="register"と繋がる -->
+        <a href="{% url 'register' %}" class="" style="text-decoration-color: #585b5e">
+          <small class="form-text text-muted">新規会員登録はこちら</small>
+        </a>
+      </div>
+      <div class="mb-3">
+        <!-- Googleログインボタン -->
+        <a href="{% provider_login_url 'google' %}">
+            <img class="" src="{% static 'images/google.png' %}"  />
+        </a>
+
+      </div>
+      {% if form.errors %}
+        <div class="alert alert-danger" >
+            <strong>エラー</strong>
+            <hr>
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                <p>
+                  <!--変換の関数呼び出しとhtmlタグとして使うsafe-->
+                  {{ error|yuzameru_kaigyo|safe }}
+                </p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+      {% endif %}
+      <!-- メルアド、パスワード -->
+      <div class="mb-3 fccc">
+        {{form.username |attr:"id:usernameemail" | add_class:"form-control textbox" | attr:"placeholder:ユーザー名またはメールアドレスを入力" | attr:"required"}}
+        <!-- 下に説明用書きたければ使えるやつ -->
+        <!-- <small class="form-text text-muted"></small> -->
+      </div>
+      <div class="mb-3 fccc">
+        {{form.password|attr:"id:id_password" | add_class:"form-control textbox" | attr:"placeholder:パスワード" | attr:"required" }}
+        <!-- <small class="form-text text-muted"></small> -->
+         <!--パスワードのエラー文(デフォルト非表示)-->
+        <div id="pwer" class="alert alert-danger mt-3 d-none">
+          <strong>エラー</strong>
+          <p>パスワードは8文字以上で、半角英字、数字、記号のいずれか2種類以上を含む必要があります</p>
+        </div>
+      </div>
+
+      <!-- ログインボタン -->
+       <!--pwのhtmlバリでのエラーでのbtn無効時のビジュaccountcss-->
+      <div class="mb-3">
+        <button class="btn btn-light login-btn text-white" id="btn" type="submit">
+          <span>ログイン</span>
+        </button>
+      </div>
+
+      <!-- パスワード忘れリンク -->
+      <div>
+        <a href="{% url 'pwwsr' %}" class="text-decoration-none">
+          <small class="form-text text-muted">パスワードを忘れた方はこちら</small>
+        </a>
+      </div>
+    </form>
+    
+  </div>
+
+
+
+  <!-- 車の画像(hoverで走る) -->
+  <div class="car-wrapper">
+    <img class="car" src="{% static 'images/car.png' %}" alt="" />
+  </div>
+</div>
+</div>
+
+{% endblock %}

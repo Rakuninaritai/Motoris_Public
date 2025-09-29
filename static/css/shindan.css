@@ -1,0 +1,160 @@
+/* すべての質問を初期状態で非表示にする */
+.question {
+  display: none;
+}
+.question_bicycle {
+  display: none;
+}.question_bike {
+  display: none;
+}.question_car {
+  display: none;
+}
+/* activeクラスが付いている質問だけを表示する */
+.active {
+  display: block;
+  text-align: center;
+}
+#next {
+  display: flex;
+  justify-content: center;
+}
+/* main内の設定 */
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  padding-bottom: 5%;
+}
+/* mainのコンテナ内の設定 */
+.main-containar {
+  width: 450px;
+  /* height: 550px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 10px;
+  width: 90%;  /* 画面幅の90%に設定 */
+  max-width: 500px; /* 最大幅を指定（PC用） */
+}
+/* ロゴ */
+.main-containar img{
+  margin: 50px;
+  max-width: 100%; /* 画像の幅をレスポンシブ対応 */
+}
+/* 「乗り物診断」 */
+.main-containar h2{
+  margin: 5px 10px 20px 10px;
+  font-size: 1.1rem;
+}
+/* 子要素を縦横中央に配置して、縦並び */
+.fccc {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ボタン全体 */
+.main-containar .btn{
+  margin: 10px 0 10px 0;
+  padding: 10px 25px 10px 25px;
+}
+/* 「はい」ボタン */
+.btn-primary{
+  /* border:1px solid #0073ff;
+  background-color: #0073ff;
+  /* 「もう一度」ボタン用 */
+  /* text-decoration: none; */
+}
+.btn-primary:hover{
+  /* border:1px solid hsla(53, 100%, 47%, 0.5);
+  background-color: hsla(53, 100%, 47%, 0.5);
+  color: #fff; */
+}
+.btn-primary:active{
+  /* border:1px solid hsla(53, 100%, 47%, 0.5);
+  --bs-btn-active-bg: hsla(53, 100%, 47%, 0.5); */
+}
+/* 「いいえ」ボタン */
+.btn-secondary{
+  border:1px solid #0073ff;
+  background-color: #fff;
+  color: #0073ff;
+}
+.btn-secondary:hover{
+  border:1px solid #0073ff;
+  background-color: #eee;
+  color: #0073ff;
+}
+.btn-secondary:hover{
+  border:1px solid #0073ff;
+  --bs-btn-active-bg: #eee;
+  color: #0073ff;
+} 
+
+/* 質問ボックス */
+.box-top{
+  width: 500px;
+  height: 25px;
+  background-color: #0073ff;
+  border: 1px solid #000;
+  border-bottom: none;
+  
+}
+.box{
+  width: 500px;
+  padding: 30px 20px 10px 20px;
+  border: 1px solid #000;
+  box-shadow: 4px 4px #eee;
+}
+
+/* 「質問」 */
+.que-num{
+  font-size: 1.2rem;
+}
+/* 質問内容 */
+.que-text{
+  margin: 10px 0px 20px 0px;
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+/*  */
+.progress{
+  --bs-progress-bar-bg: #777;
+  max-width: 300px;
+  margin: auto;
+}
+
+
+/* 1) タブレット(〜991px) */
+  /* 画面幅991px以下の場合 */
+  @media (max-width: 991px) {
+    .main-containar {
+      width: 95%;
+      max-width: 400px;
+    }
+  
+    .box-top,
+    .box {
+      max-width: 400px;
+    }
+  }
+  
+  /* 2) スマホ(〜767px) */
+  /* galaxyZfold5 */
+  @media (max-width: 767px) {
+    .main-containar {
+      width: 100%;
+      max-width: 300px;
+    }
+  
+    .box-top,
+    .box {
+      max-width: 300px;
+    }
+  }

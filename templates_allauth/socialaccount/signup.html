@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}ソーシャルアカウント登録エラー{% endblock %}
+
+{% load static %}
+{% load widget_tweaks %}
+{% load custom_filter %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/account.css' %}">
+{% endblock %}
+
+
+
+{% block content %}
+<div class="fccc align-items-center">
+<div class="container-fluid bg-white main-containar back-w">
+  <!-- ロゴとログイン -->
+  <div class="fccc logo-login">
+    <!-- ロゴ -->
+    <img class="mb-1 vlgi" src="{% static 'images/logo.png' %}" width="350px" height="auto" alt="" />
+    <!-- ログインの文字 -->
+    <h3 class="">ソーシャルアカウント登録エラー</h3>
+    
+  </div>
+  <p class="mt-1 alert alert-info">
+    ユーザー名(デフォルトはメールアドレスの@より前)か<br>メールアドレスが既に登録されています。<br>
+    ユーザー名が重複の場合は変更してください。<br>
+    メールアドレスが重複の場合はログインページに戻ってほかのアカウントで、<br>
+    ログインしてください。
+  </p>
+
+  <form method="post" action="{% url 'socialaccount_signup' %}">
+    {% csrf_token %}
+    <!-- ユーザー名入力欄 -->
+    <div class="mb-3">
+        <label for="id_username" class="form-label">ユーザー名</label>
+        {{ form.username|add_class:"form-control textbox" }}
+        <!-- エラー表示 -->
+        {% if form.username.errors %}
+            <div class="text-danger">
+                {% for error in form.username.errors %}
+                <p>{{ error|kaigyo|safe }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- メールアドレス入力欄 (入力不可にする) -->
+    <div class="mb-3">
+        <label for="id_email" class="form-label">メールアドレス(変更は再度別アカウントでログイン)</label>
+        <input type="email" name="email" id="id_email" value="{{ form.email.value }}" class="form-control textbox" readonly>
+        <!-- エラー表示 -->
+        {% if form.email.errors %}
+            <div class="text-danger">
+                {% for error in form.email.errors %}
+                <p>{{ error|kaigyo|safe }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    
+    <!-- 登録ボタン -->
+    <button type="submit" class="btn btn-primary mb-3">登録</button>
+</form>
+<!-- ログインへ戻るボタン -->
+<button type="buttomn" class="btn btn-secondary"><a href="{% url 'login' %}" class="text-decoration-none text-light">ログインページへ戻る</a></button>
+
+  <!-- 車の画像(hoverで走る) -->
+  <div class="ms-auto">
+    <img class="car" src="{% static 'images/car.png' %}" alt="" />
+  </div>
+</div>
+</div>
+
+{% endblock %}

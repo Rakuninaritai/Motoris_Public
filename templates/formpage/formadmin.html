@@ -1,0 +1,48 @@
+<!-- formadmin.html -->
+{% comment %} {% extends "base.html" %} {% endcomment %}
+
+{% block content %}
+  <h1>お問い合わせ内容一覧</h1>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>名前</th>
+        <th>電話番号</th>
+        <th>メールアドレス</th>
+        <th>お問い合わせ内容</th>
+        <th>ユーザー</th>
+        <th>作成日時</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contact in contact_info_list %}
+        <tr>
+          <td>{{ contact.Name }}</td>
+          <td>{{ contact.Tell }}</td>
+          <td>{{ contact.Mail }}</td>
+          <td>{{ contact.Text }}</td>
+          <td>
+            {% if contact.user_id %}
+              {{ contact.user_id.username }}
+            {% else %}
+              ゲスト
+            {% endif %}
+          </td>
+          <td>{{ contact.created_at }}</td>
+          <td>
+            <form action="{% url 'send_mail_form' contact.id %}" method="get">
+              {% csrf_token %}
+              <button type="submit">この問合せに回答する</button>
+            </form>
+          </td>
+          
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">データがありません。</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

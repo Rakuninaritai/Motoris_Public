@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block title %}{{ car.modelname.name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/shohin.css' %}">
+<script src="{% static 'js/shohin.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+    <div class="page-container">
+        <div class="product-container">
+            {% if car.soldflag %}
+            <div class="soldout-overlay">
+                <img src="{% static 'images/SOLDOUT.png' %}" alt="SOLD OUT" class="soldout-image">
+            </div>
+            {% endif %}
+            <div class="image-section">
+                <div class="slider">
+                    <span class="arrow-left" onclick="moveSlide(-1)">&#10094;</span>
+                    <div class="slides">
+                        {% for image in car.images.all %}
+                            <img src="{{ image.files.url }}" class="slide" alt="Car Image {{ forloop.counter }}" {% if not forloop.first %}style="display:none;"{% endif %}>
+                        {% endfor %}
+                    </div>
+                    <span class="arrow-right" onclick="moveSlide(1)">&#10095;</span>
+                </div>
+            </div>
+            <div class="product-details">
+                <h1 class="maker">{{ car.maker }}</h1>
+                <h1 class="name">{{ car.modelname.name }}</h1>
+                <h2 class="price">¥{{ car.price|intcomma }}</h2>
+                <table>
+                    <tr>
+                        <td>
+                            <p>年式</p>
+                            <p><span>{{ car.modelyear }}</span></p>
+                        </td>
+                        <td>
+                            <p>走行距離</p>
+                            <p><span>{{ car.mileage|default:"不明"|intcomma }} {% if car.mileage %}km{% endif %}</span></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>ナンバー</p>
+                            <p><span>{{ car.number|default:"なし" }}</span></p>
+                        </td>
+                        <td>
+                            <p>車検</p>
+                            <p><span>{{ car.vehicleinspection }}</span></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>状態</p>
+                            <p><span>{{ car.condition }}</span></p>
+                        </td>
+                    </tr>
+                </table>
+                <div class="product-actions">
+                    <!--購入ボタン動きます!shuto　レスポンシブ化しました-->
+                    <button class="purchase-button" onclick="location.href='{{ button_url }}'">
+                        {{ button_text }}
+                    </button>
+                    <button class="like-button" id="like-button" data-product-type="car" data-product-id="{{ car.id }}">
+                        &hearts;&ensp;<span id="like-count">{{ like_count }}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- shohin_bike.html のコメントセクションを更新 -->
+    
+        <div class="comment-section">
+            <div class="seller-section">
+                <a href="{%url 'other_profile' car.user.id %}" class="seller-info">
+                    <span class="seller-name">出品者&thinsp;&thinsp;</span>
+                    <img src="{{ car.user.profile.get_image_url }}" alt="出品者アイコン" class="seller-icon">
+                    <span class="seller-name">{{ car.user.username }}</span>
+                </a>
+            </div>
+            <div class="comment-list" id="comment-list">
+                {% for comment in comments %}
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            {% if comment.user %}
+                                <img src="{{ comment.user.profile.get_image_url }}" alt="ユーザーアイコン" class="user-icon">
+                                <span class="username">{{ comment.user.username }}</span>
+                            {% else %}
+                                <img src="{% static 'images/default_account.png' %}" alt="ゲストアイコン" class="user-icon">
+                                <span class="username">{{ comment.guest_name|default:"ゲスト" }}</span>
+                            {% endif %}
+                        </div>
+                        <p class="comment-text">{{ comment.text }}</p>
+                        <small class="comment-date">{{ comment.created_at }}</small>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="comment-input-section">
+                <form method="post" action="{% url 'shohin:shohin_car' car.id %}">
+                    {% csrf_token %}
+                    {{ form.text }}
+                    {% if not request.user.is_authenticated %}
+                        {{ form.guest_name }}
+                    {% endif %}
+                    <button type="submit" id="submit-comment">コメントを送信</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="product-description">
+        <p class="product-descriptionTitle">商品説明</p>
+        <p>{{ car.explanation }}</p>
+    </div>
+    <!--画像全表示-->
+    {% comment %} {% for image in car.images.all %}
+        <img src="{{ image.files.url }}" alt="Image">
+    {% endfor %} {% endcomment %}
+{% endblock %}

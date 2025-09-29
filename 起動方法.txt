@@ -1,0 +1,25 @@
+初回
+    前提
+        djangoとpillowとdjango-widget-tweaksとdjango-allauthとpython-dotenvとnginxとwrangler(Debug=falseのみ)をインストールする
+        例)
+        pip install django pillow django-widget-tweaks django-allauth python-dotenv
+
+    準備
+        Motoris(manage.pyのある場所)にくる。
+        例)
+        cd ~/path/to/Motoris
+
+        manage.pyをmigrateする(No migrations to apply.とでたら不要)
+        例)
+        python manage.py makemigrations
+        python manage.py migrate
+
+起動
+    Motoris(manage.pyのある場所)にくる。
+    例)
+    cd ~/path/to/Motoris
+
+    manage.pyをrunserverする。
+    例)
+    python manage.py runserver
+

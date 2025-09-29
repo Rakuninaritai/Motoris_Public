@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}パスワード忘れ{% endblock %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/account.css' %}">
+<script src="{% static 'js/bari/accounts.js' %}" defer></script>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="fccc align-items-center">
+<div class="container-fluid bg-white main-containar  back-w">
+  <!-- ロゴとログイン -->
+  <div class="fccc logo-login">
+    <!-- ロゴ -->
+    <img class="mb-1 vlgi " src="{% static 'images/logo.png' %}" width="350px" height="auto" alt="" />
+    {% if zti == 0 %}
+      <h3 class="">ワンタイムパスワード発行</h3>
+      <!--説明-->
+      <p>パスワードを忘れた方向けにワンタイムパスワードを<br>発行します。</p>
+    {% else %}
+      <h3 class="">ワンタイムパスワードログイン</h3>
+      <!--説明-->
+      <p>ワンタイムパスワードで<br>{{request.session.email}}<br>にログインします。</p>
+    {% endif %}
+  </div>
+
+
+
+  <!-- form -->
+  <div class="mb-5 fccc">
+    <form method="POST">
+      {% csrf_token %}
+      {% if errors %}
+        <div class="alert alert-danger" >
+            <strong>エラー</strong>
+            <hr>
+            <p>{{errors}}</p>
+        </div>
+      {% endif %}
+      <!-- メルアド、パスワード -->
+      <div class="mb-3 fccc ">
+        {% if zti == 0 %}
+          {{form.email.label }}
+          {{form.email |add_class:'form-control textbox'}}
+        {% else %}
+          {{form.otp.label}}
+          {{form.otp |add_class:'form-control textbox'}}
+        <!-- 下に説明用書きたければ使えるやつ -->
+        <!-- <small class="form-text text-muted"></small> -->
+        {% endif %}
+      </div>
+
+      <!-- ログインボタン -->
+       <!--pwのhtmlバリでのエラーでのbtn無効時のビジュaccountcss-->
+      <div class="mb-3">
+        <button class="btn btn-light login-btn text-white" id="btn" type="submit">
+          {% if zti == 0 %}
+            <span>発行</span>
+          {% else %}
+            <span>ログイン</span>
+          {% endif %}
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+
+
+  <!-- 車の画像(hoverで走る) -->
+  <div class="ms-auto">
+    <img class="car" src="{% static 'images/car.png' %}" alt="" />
+  </div>
+</div>
+</div>
+
+{% comment %} {% if zti == 0 %}
+{% else %}
+{% endif %} {% endcomment %}
+
+{% endblock %}

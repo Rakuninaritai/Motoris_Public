@@ -1,0 +1,127 @@
+main{
+    background-color: #eee;
+}
+
+.box{
+    width: 60%;
+    margin: auto;
+    padding: 7%;
+    background-color: #fff;
+}
+
+h1{
+    margin: 40px;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.Form {
+}
+
+.Form-Item {
+    /* border-top: 1px solid #ddd; */
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+    align-items: center;
+}
+.Form-Item:nth-child(5) {
+    /* border-bottom: 1px solid #ddd; */
+}
+.Form-Item-Label {
+    width: 100%;
+    margin: 0px;
+    max-width: 248px;
+    letter-spacing: 0.05em;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.Form-Item-Label.isMsg {
+    margin-top: 8px;
+    margin-bottom: auto;
+}
+
+.Form-Item-Label-Required {
+    border-radius: 6px;
+    margin-left: 4px;
+    /* margin-right: 8px; */
+    /* padding-top: 6px; */
+    /* padding-bottom: 6px; */
+    width: 40px;
+    display: inline-block;
+    text-align: center;
+    background: #f0ad4e;
+    color: #fff;
+    font-size: 14px;
+}
+.Form-Item-Input {
+    /* width: 47%; */
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+.Form-Item-Textarea {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-left: 40px;
+    padding-left: 1em;
+    padding-right: 1em;
+    height: 216px;
+    flex: 1;
+    width: 100%;
+    max-width: 410px;
+    background: #eaedf2;
+    font-size: 18px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+textarea{
+    width: 100%;
+    padding: 3px;
+    font-size: 1.1rem;
+}
+
+.Input-Item{
+    margin: 5% 0 0 0;
+    text-align: center;
+}
+input[type="submit"]{
+    display: inline-block;
+    border-radius: 5%;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 1% 5% 1% 5%;
+    background: #007fff;
+    color: #ffffff;
+    border: 2px solid #007fff;
+}
+input[type="submit"]:hover{
+    color: #007fff;
+    background: #ffffff;
+}
+
+/* 1) タブレット(〜991px) */
+@media (max-width: 991px) {
+
+  }
+  
+  /* 2) スマホ(〜767px) */
+  /* galaxyZfold5 */
+  @media (max-width: 767px) {
+    .box{
+        width: 100%;
+    }
+
+  }
+
+
+/* sendmail.html */
+#send_text input[type="text"]{
+    width: 100%;
+}
+
+#send_message textarea{
+    width: 100%;
+}

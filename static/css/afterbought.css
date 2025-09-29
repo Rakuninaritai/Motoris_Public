@@ -1,0 +1,286 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+p{
+    margin: 0;
+}
+footer{
+    display: none;
+}
+.all{
+    width: 100%;
+    display: flex;
+    height: 100vh;
+}
+.left{
+    width: 25%;
+    height: 100%;
+    background-color: #fff;
+    position: relative;
+}
+.left .hideback{
+    height: 13%;
+    display: flex;
+    align-items: center;
+}
+.left .hideback a{
+    width: 150px;
+    height: 80%;
+    text-decoration: none;
+    color: #000;
+    border-radius: 20px;
+    margin-left: 3%;
+}
+.left .hideback a .back{
+    width: 100%;
+    height: 100%;
+    background-color: #ddd;
+    border-radius: 20px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .2s;
+}
+.left .hideback a .back:hover{
+    background-color: #aaa;
+}
+.left .hideback a .back h2{
+    font-size: 30px;
+    margin: 0;
+}
+.left .detail{
+    height: 76%;
+    border-radius: 20px;
+    background-color: #ddd;
+    margin: 0 3%;
+    overflow: hidden;
+    text-align: center;
+}
+.left .detail .img{
+    width: 100%;
+    height: 45%;
+    background-color: #ddd;
+    text-align: center;
+}
+.left .detail .img img{
+    height: 96%;
+    display: inline-block;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    border-radius: 5px;
+    margin: 2% 0;
+}
+.left .detail .description{
+    background-color: #ddd;
+    height: auto;
+    margin: 8% 3% 0 3%;
+    text-align: left;
+}
+.left .detail .description .hided{
+    display: flex;
+}
+.left .detail .description .hided .dleft{
+    width: 50%;
+}
+.left .detail .description .hided .dright{
+    width: 50%;
+}
+.left .detail .description .model p{
+    font-size: 25px;
+    font-weight: bold;
+    /* text-align-last: justify; */
+}
+.left .detail .description .price p{
+    font-size: 30px;
+    color: red;
+}
+.left .detail .description p.headline{
+    font-size: 12px;
+}
+.left .detail .description p.contents{
+    font-size: 18px;
+}
+.right{
+    width: 75%;
+    height: 100%;
+    background-color: #fff;
+    right: 0;
+    position: relative;
+}
+.right .tab{
+    width: 98%;
+    height: 13%;
+    margin: 0 auto;
+    background-color: white;
+    justify-content: space-between;
+    display: flex;
+    align-items: flex-end;
+}
+.right .tab div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tc{
+    height: 90%;
+    height: 80%;
+    margin: auto 0; 
+    background-color: #ddd;
+}
+
+/* .right .tab p{
+    font-size: 30px;
+} */
+.under{
+    width: 97%;
+    height: 76%;
+    margin: 0 auto;
+    background-color: #ddd;
+    border-radius: 0 0 20px 20px;
+    padding: 10px!important;
+}
+
+
+/* 追加 */
+.nav-item:first-child {
+    border-radius: 20px 0 0 0!important;
+}
+
+/* 最後の.nav-itemに適用 */
+.nav-item:last-child {
+    border-radius: 0 20px 0 0!important;
+}
+
+a{
+    color: #000 !important;
+}
+
+.nav-tabs {
+    display: flex; /* 子要素をフレックスアイテムとして扱う */
+    justify-content: space-between; /* スペースを均等に配置 */
+    width: 100%; /* 必要なら幅を指定 */
+    border-bottom: none !important; /* デフォルトの下線を消す */
+}
+.nav-tabs .nav-item {
+    flex-grow: 1; /* 各タブを均等に広げる */
+    text-align: center; /* テキストを中央揃えにする */
+    box-sizing: border-box!important;
+    margin: 5px;
+    padding: 6px;
+}
+
+
+.nav-tabs .nav-link {
+    display: block;
+    width: 100%!important;
+    height: 100%!important; /* 高さを親に合わせる */
+    line-height: 100%; /* テキストを垂直方向に中央揃え */
+
+}
+.text{
+    background-color: white;
+    padding:5px;
+    height: 25vh;
+} 
+.sita{
+    margin: 0;
+    margin-top: 10px;
+    height: 30vh;
+    background-color: white;
+}
+.zyoutai{
+    height: 21vh;
+    background-color: white;
+    padding: 5px;
+}
+
+html, body {
+    /* 無理やりスクロールさせないようにします */
+    overflow: hidden; /* 全体のスクロールを無効化 */
+}
+
+.bginfo{
+    width: fit-content;
+    border-radius: 5px;
+    background-color: #0d6efd;
+    color: white;
+    padding: 1px;
+}
+
+/* 1) タブレット(〜991px) */
+  /* 画面幅991px以下の場合 */
+@media (max-width: 991px) {
+    /* rightとレフトを縦にして、leftは左写真右説明、leftはwidthを大きくする処理 */
+    /* コンテナ全体を縦並びにする */
+    .all {
+      flex-direction: column;
+      height: auto; /* 高さも自動調整 */
+    }
+    
+    /* left, rightそれぞれ全幅に */
+    .left,
+    .right {
+      width: 100%;
+    }
+    
+    /* left内のdetailを横並びに */
+    .left .detail {
+      display: flex;
+      flex-direction: row;
+      height: auto;
+    }
+    
+    /* 画像と説明を左右に並べる */
+    .left .detail .img,
+    .left .detail .description {
+      width: 50%;
+      /* 必要に応じてパディングなど追加 */
+      box-sizing: border-box;
+      padding: 5px;
+    }
+    
+    /* 必要なら画像の高さも自動調整 */
+    .left .detail .img img {
+      width: 100%;
+      height: auto;
+    }
+    /* 戻るボタン隙間 */
+    .left .hideback a .back {
+        /* 既存のスタイルに追加 */
+        margin: 10px; /* 全方向に10pxの隙間を設定 */
+        padding: 10px;
+    }
+    html, body {
+        /* 無理やりスクロールさせないようにします */
+        overflow: auto; /* 全体のスクロールを無効化 */
+    }
+    /* タブのリンクを見やすくする */
+    .nav-tabs .nav-link {
+        white-space: nowrap;       /* 改行させない */
+        overflow: hidden;          /* はみ出した部分を隠す */
+        text-overflow: ellipsis;   /* はみ出した部分に「…」を表示 */
+        font-size: 0.8rem;         /* 必要に応じてフォントサイズを小さくする */
+      }
+      /* .text内の全てのpタグに対してブロック表示に変更 */
+      /* 作業内容の部分を二行にする */
+    .text p {
+        display: block !important;    /* inline指定を上書き */
+        white-space: normal !important;/* 改行可能に */
+    }
+    /* タブの部分のborder-radius失くす */
+    .nav-item:first-child,
+    .nav-item:last-child {
+    border-radius: 0 !important;
+  }
+  .zyoutai{
+    min-height: 21vh;
+    height: auto;
+}
+  }
+  
+  /* 2) スマホ(〜767px) */
+  /* galaxyZfold5 */
+  @media (max-width: 767px) {
+  }

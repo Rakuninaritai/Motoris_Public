@@ -1,0 +1,165 @@
+/* 最小構成のcssのためいろいろなとこで使っています、、、 */
+/* templatesフォルダのaccounts以外のフォルダで使っている箇所 */
+/* 404.html,templates_allauth/signup.html,authentication_error.html */
+main {
+  /* mainの下余らない用に↓ */
+  /* acccountsはformだけやエラーの文字だけが多く、下が余るのでこうしてます。何かいい方法があれば変えてください! */
+  min-height: 84vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  background-color: #eee;
+}
+
+/* mainのコンテナ内の設定 */
+.main-containar {
+  margin: 20px 0 20px 0;
+  max-width: 470px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* 後ろの白背景 */
+.back-w {
+  margin: 3rem;
+}
+
+/* 子要素を縦横中央に配置して、縦並び */
+.fccc {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+.logo-login {
+  /* ロゴとログイン,新規会員登録h3の位置調整*/
+  margin: 80px 0 50px 0;
+}
+
+.logo-login .reg-h3 {
+  margin-bottom: 60px;
+}
+
+/* uid,psの入力ボックスの角丸く*/
+.textbox {
+  /* width: 100%; */
+  width: 350px;
+  border: 0.5px solid black;
+  border-radius: 10px;
+}
+
+/* loginボタン、新規登録とかもつかいまわし*/
+.login-btn {
+  margin: 20px 0 20px 0;
+  width: 150px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 1px solid black;
+  border-radius: 30px;
+  transition: .3s;
+  background-color: #4169E1;
+}
+
+.login-btn:hover {
+  background-color: #6495ed;
+}
+
+
+
+/* コンテナの右下の車をhoverで動かすやつ */
+.car-wrapper {
+  position: relative;
+  width: 100%;
+  height: 50px;
+}
+
+.car {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transition: transform 0.5s ease;
+}
+
+.car-wrapper:hover .car {
+  transform: translate(-340px, 0);
+}
+
+/* ボタン無効時の動き */
+button:disabled {
+  display: inline-block !important;
+  /* 消えないように維持 */
+  opacity: 0.65;
+  /* グレーアウト */
+  cursor: not-allowed !important;
+  /* カーソルを変更 */
+  border: 1px solid #000 !important;
+  /* 枠線の色 */
+  background-color: #f8f9fa;
+  /* 背景色 (btn-light標準色) */
+  color: #6c757d !important;
+  /* 無効状態の文字色 (btn-lightと調和) */
+}
+
+/* 1) タブレット(〜991px) */
+@media (max-width: 991px) {}
+
+/* 2) スマホ(〜767px) */
+/* galaxyZfold5 */
+@media (max-width: 767px) {
+
+  /* 背景の隙間をを縦1remの隙間のみに */
+  .back-w {
+    margin: 1rem 0;
+  }
+
+  /* 車の移動距離調整 */
+  .car-wrapper:hover .car {
+    transform: translate(-250px, 0);
+  }
+
+  /* ユーザーやパス和などのinput */
+  .textbox {
+    width: 285px;
+  }
+
+  /* formのmotoris画像vlgi指定済み */
+}
+
+
+/* 404.html */
+.box404 {
+  width: 1000px;
+}
+
+.error404 {
+  font-size: 6rem;
+}
+
+.errortext h3 {}
+
+.errortext2 h1 {
+  font-size: 1.1rem;
+}
+
+.errortext3 {}
+
+.errortopbox {
+  font-size: 1.1rem;
+}
+
+.errortop {
+  text-decoration: none;
+  border-bottom: 1px solid #000;
+  color: #000;
+}
+
+.errortop:hover {
+  opacity: 0.5;
+}

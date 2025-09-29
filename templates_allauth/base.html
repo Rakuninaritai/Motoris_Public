@@ -1,0 +1,427 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <link rel="icon" type="image/x-icon" href="{% static 'images/siteicon.png' %}">
+
+    <!-- bootstrap(cdn)用css -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <!-- bootstrap(cdn)用のjs(deferで全部読み込んでから実行) -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    
+    <!-- Splide -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.7/dist/css/splide.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.0.7/dist/js/splide.min.js" defer></script>
+
+    <!-- SwiperのCSS / JS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <!-- jQuery CDN読み込み(画像プレビュー用??) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- axiosのライブラリ読み込みchatbotの送信で使う -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
+    <!--chatbot.jsへ送るsettingsからのapiキーを指定-->
+    <script>
+      const API_KEY = "{{ CHATGPT_API_KEY |escapejs }}";
+      const deeplAPIKey = "{{ DEEPL_API_KEY |escapejs }}";
+    </script>
+    <!--chatbot用のjs-->
+    <script src="{% static 'js/chatbot.js' %}" defer></script>
+
+
+
+    <title>{% block title %}Motoris{% endblock %}</title>
+    {% block extra_css %} {% endblock %}
+    
+  </head>
+
+
+
+
+  <body class="body d-flex flex-column min-vh-100">
+    <header class="w-100">
+      <!-- ↓ナビゲーションバー作ってる -->
+      <nav class="navbar bg-or">
+        <!-- ↓ナビゲーション内の要素画面の大きさに合わせて動く(可変) -->
+        <div class="container-fluid">
+          <!-- ↓左側によってる要素 -->
+          <div class="d-flex align-items-center">
+            <!-- ↓ハンバーガーメニュー(id="hidari"が開く) -->
+            <button
+              class="navbar-toggler bg-bbb"
+              type="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#hidari"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- ↓ロゴ -->
+            <a href="{% url 'top' %}" class=" navbar-brand ms-3">
+              <img src="{% static 'images/logo.png' %}" width="200px" height="44px" alt="ロゴ"class="vlgi" />
+            </a>
+            <!-- ↓検索の部分(inputとbtn)g-1は間隔、msはmarginのstart(左) -->
+            <!-- 可能なら消したいな、オフキャンバス内にあるし、なにより小さくなるとこいつのせいでずれる(レスポンシブの妨げ) -->
+             <!--今回formの処理はtopのviewで書いているのでactionそれ記載-->
+            <form class="row g-1 ms-3" action="{% url 'top' %}" method="post">
+              {% csrf_token %}
+              <div class="col-auto searchinput" style="width: 400px" >
+                <input type="search" class="form-control" placeholder="検索"  name="kensaku" value="{{ kensaku }}" />
+              </div>
+              <div class="col-auto searchbtn">
+                <button class="btn btn-light hv-888" type="submit">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-search"
+                    viewBox="0 0 16 16"
+                    style="margin-top: -2px"
+                  >
+                    <path
+                      d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                    />
+                  </svg>
+                  検索
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- 右側によっている要素(msをautoにすることで右寄せ) -->
+          <div class="d-flex ms-auto">
+            <!-- 出品のボタン -->
+
+
+            {% if user.is_authenticated %}
+              <a href="{% url 'befourshuppin' %}" class=" btn btn-light hv-888 d-flex align-items-center shpnbtn ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-plus-circle"
+                  viewBox="0 0 16 16"
+                  style="margin-top: -2px "
+                >
+                  <path
+                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                  />
+                  <path
+                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                  />
+                </svg>
+                出品
+              </a>
+            {% else %}
+              <a href="{% url 'login' %}" class="btn btn-light hv-888 d-flex align-items-center shpnbtn">
+                  ログイン
+              </a>
+            {% endif %}
+
+            <!-- アカウントのボタン(rounded-circleで丸になる) -->
+             <div class="acbtn btn">
+              <!-- ログイン分岐 -->
+                {% if user.is_authenticated %}
+                  <a href="{% url 'profile' %}">
+                    <img class="account-btn" src="{{ user.profile.get_image_url }}"/>
+                {% else %}
+                  <a href="{% url 'login' %}">
+                    <img class="account-btn" src="{% static 'images/default_account.png' %}"/>
+                {% endif %}
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- オフキャンバス(ハンバーガメニューを押したとき)に表示される部分 -->
+      <div class="offcanvas offcanvas-start" id="hidari">
+        <!-- オフキャンバスのヘッダー部分(ロゴとバツボタン) -->
+        <div class="offcanvas-header bg-or">
+          <a href="{% url 'top' %}" class="navbar-brand ms-3">
+            <img src="{% static 'images/logo.png' %}" width="200px" height="44px" alt="ロゴ画像" class="vlgi" />
+          </a>
+          <button
+            type="button"
+            class="btn-close text-reset bg-white"
+            data-bs-dismiss="offcanvas"
+          ></button>
+        </div>
+        <!-- オフキャンパスボディ(検索とリンクとアカウント) -->
+        <div class="offcanvas-body bg-ccc" style="padding-top:20px;">
+          <ul class="list-group">
+            <!-- 検索 -->
+            <li class="list-group-item">
+              <form class="row g-1 ms-3" action="{% url 'top' %}" method=post>
+                {% csrf_token %}
+                <div class="col-auto">
+                  <input
+                    type="search"
+                    class="form-control"
+                    placeholder="検索" name="kensaku" value="{{kensaku}}"
+                  />
+                </div>
+                <div class="col-auto">
+                  <button class="btn btn-light hv-888" type="submit">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-search"
+                      viewBox="0 0 16 16"
+                      style="margin-top: -2px"
+                    >
+                      <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                      />
+                    </svg>
+                    検索
+                  </button>
+                </div>
+              </form>
+            </li>
+            <!-- リンクの皆さん -->
+            <li class="list-group-item">
+              <!-- ログイン分岐 -->
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}"class="text-decoration-none text-dark">マイページ
+                {% else %}
+                  <a href="{% url 'login' %}"class="text-decoration-none text-dark">ログイン
+                {% endif %}
+              </a>
+            </li>
+            <li class="list-group-item">
+              <a class="text-decoration-none text-dark" href="{% url 'befourshuppin' %}">出品</a>
+            </li>
+            <li class="list-group-item">
+              <a class="text-decoration-none text-dark" href="{% url 'shindan' %}">乗り物診断</a>
+            </li>
+            <li class="list-group-item">
+              <a class="text-decoration-none text-dark" href="{% url 'event_list' %}">イベント一覧</a>
+            </li>
+            <li class="list-group-item">
+              <a class="text-decoration-none text-dark" href="{% url 'event_entries' %}">参加予定のイベントを確認</a>
+            </li>
+            <li class="list-group-item">
+              <a class="text-decoration-none text-dark" href="{% url 'event_post' %}">イベントを開催する</a>
+            </li>
+            <li class="list-group-item">
+              <a class="text-decoration-none text-dark" href="{% url 'formpage' %}">お問い合わせ</a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </header>
+    <!--message用for文-->
+    {% if messages %}
+    {% for message in messages %}
+      <div class="{{message.tags}} mt-1 alert-dismissible fade show w-100">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+    {% endif %}
+
+    <main class="flex-grow-1">
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+    <footer>
+      <a class="fins" href="https://www.instagram.com/kouta.y_0712?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">
+        <img src="{% static 'images/ftinsta.jpg' %}" alt="Instagram">
+      </a>
+
+      <a class="ftwi" href="https://x.com/MotorisO38177">
+        <img src="{% static 'images/ftx.jpg' %}" alt="X">
+      </a>
+      <button id="funButton" class="fun-button">お疲れ様ボタン</button>
+        <p>
+        ©Jgroup,inc.
+        </p>
+    </footer>
+
+    <!-- Firebase SDK の読み込み（Firestore用） -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+    <script>
+      //firebaseの初期化
+      const firebaseConfig = {
+        apiKey: "AIzaSyBwrOSNuDkgyutv_GXUR_Jd7bVB24gJf94",
+        authDomain: "motoris-2d127.firebaseapp.com",
+        projectId: "motoris-2d127",
+        storageBucket: "motoris-2d127.firebasestorage.app",
+        messagingSenderId: "125858424665",
+        appId: "1:125858424665:web:5540d14663df4462f38e48",
+        measurementId: "G-QVSSZZ36DM"
+      };
+      //firebaseの初期化
+      firebase.initializeApp(firebaseConfig);
+      // Firestore インスタンスを取得
+      const firestore = firebase.firestore();
+      //「countersの集まりのotukan」というキー(モデル名)を使う
+      const countRef=firestore.collection('couters').doc("otukan")
+      // カウンタを初期化して Firestore に保存（初回の場合）
+      countRef.get().then((doc) => {
+        if (!doc.exists) {
+          // ドキュメントが存在しなければ初期値を設定(docTrueの否定)
+          countRef.set({ count: 0 });
+        }
+      });
+    </script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const funButton = document.getElementById('funButton');
+        let textContainer = null;
+        let bigText = null;
+        let count = 0;
+
+        // Firestore からカウンタの値をリアルタイムで取得（onSnapshot を利用）
+        countRef.onSnapshot((doc) => {
+          if (doc.exists) {
+            count = doc.data().count;
+          }
+        });
+        
+        // ランダムなメッセージを返す関数
+        function getRandomMessage() {
+          const messages = [
+          '人目！！押してくれてありがとう！！',
+          ];
+          
+          return count+1 + messages[Math.floor(Math.random() * messages.length)];
+        }
+        
+        // ランダムな色を返す関数
+        function getRandomColor() {
+          const colors = [
+            '#ff6b6b', '#48dbfb', '#1dd1a1', '#feca57', 
+            '#ff9ff3', '#54a0ff', '#5f27cd', '#ff6b81'
+          ];
+          
+          return colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        funButton.addEventListener('click', function() {
+          // Firestore のトランザクションでカウンタをインクリメント
+          firestore.runTransaction((transaction) => {
+            return transaction.get(countRef).then((doc) => {
+              if (!doc.exists) {
+                throw "Document does not exist!";
+              }
+              let newCount = doc.data().count + 1;
+              transaction.update(countRef, { count: newCount });
+              return newCount;
+            });
+          }).then((newCount) => {
+          // コンテナとテキスト要素が既に存在する場合は削除
+
+          if (textContainer) {
+            document.body.removeChild(textContainer);
+            document.body.removeChild(bigText);
+          }
+          
+          // コンテナ要素を作成
+          textContainer = document.createElement('div');
+          textContainer.className = 'text-container';
+          document.body.appendChild(textContainer);
+          
+          // テキスト要素を作成
+          bigText = document.createElement('div');
+          bigText.className = 'big-text';
+          bigText.textContent = getRandomMessage();
+          bigText.style.color = getRandomColor();
+          document.body.appendChild(bigText);
+          
+          // 要素を表示
+          setTimeout(function() {
+            textContainer.classList.add('active');
+            bigText.classList.add('active');
+            
+            // 数秒後に非表示
+            setTimeout(function() {
+              textContainer.classList.remove('active');
+              bigText.classList.remove('active');
+              
+              setTimeout(function() {
+                document.body.removeChild(textContainer);
+                document.body.removeChild(bigText);
+                textContainer = null;
+                bigText = null;
+              }, 500);
+            }, 2000);
+          }, 10);
+        }).catch((error) => {
+          console.error("Transaction failed: ", error);
+        });
+        });
+      });
+    </script>
+
+    
+    <!--チャットボット用-->
+    <!-- offcanvsのコンポーネント:右からスライドイン -->
+    <!-- offcanvs-endで右側から表示、h-75で高さを75%に id以降背景などでoffcanvas閉じないようにし、本文のスクロール許可-->
+    <div class="offcanvas offcanvas-end  chatbotmain border " tabindex="-1" id="chatbotOffcanvas" data-bs-backdrop="false"
+    data-bs-scroll="true">
+      <!-- offcanvsのヘッダ デフォルトで横並びを縦に -->
+      <div class="offcanvas-header flex-column">
+        <!-- タイトルとボタン横並び -->
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <!-- img -->
+          <img src="{% static 'images/siteicon.png' %}" width="50px" height="auto" alt="" srcset="">
+          <!-- title -->
+          <h5 class="offcanvas-title" id="chatbotOffcanvasLabel">MotorisAI</h5>
+          <!-- offcanvasを閉じるボタン -->
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        
+      </div>
+      
+      <!-- offcanvsのボディ部 -->
+      <div class="offcanvas-body d-flex flex-column">
+        <!-- チャットメッセージ表示部 -->
+        <div id="chat-area-offcanvas" class="mb-3"></div>
+        <!-- 入力エリア -->
+        <div class="input-group">
+          <!-- 入力エリアフィールドenterでも送信ボタンでも送信(jsのdef実行) -->
+          <input type="text" class="form-control" placeholder="メッセージを入力" id="chatbot-user-message"
+            onkeypress="if(event.key === 'Enter'){ pushbtn(); }">
+          <!-- 送信ボタン -->
+          <button class="btn btn-primary" onclick="pushbtn()">送信</button>
+        </div>
+      </div>
+    </div>
+    <!-- 画面右下に固定されたトグルボタン -->
+    <button id="toggle-chatbot" data-bs-toggle="offcanvas" data-bs-target="#chatbotOffcanvas" class="bg-white border">
+      <!-- img -->
+      <img src="{% static 'images/siteicon.png' %}" width="30px" height="auto" alt="" srcset="">
+    </button>
+
+  </body>
+  {% block extra_js %}
+  {% endblock %}
+  
+</html>

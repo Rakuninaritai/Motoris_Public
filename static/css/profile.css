@@ -1,0 +1,226 @@
+a {
+  color: black !important;
+  text-decoration: none !important;
+  /* リンクの下線を消す（任意） */
+}
+
+p {
+  margin: 0 0 1% 0;
+}
+
+.result-table {
+  display: flex;
+  margin: 20px 0 20px 0;
+  padding: 3% 4% 3% 4%;
+  border: solid 1px #bbb;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.result-image {
+  width: 17%;
+  margin: 0 3% 0 0;
+  /* background-color: #333333; */
+}
+
+.result-image img {
+  width: 100%;
+}
+
+.result-text {
+  width: 80%;
+  position: relative;
+}
+
+.result-title {
+  margin: 0 0 0.5% 0;
+  font-size: 1.1rem;
+}
+
+.result-date {
+  margin: 0 0 1% 0;
+  font-size: 0.9rem;
+}
+
+.result-detail {
+  margin: 0 0 1% 0;
+  font-size: 0.8rem;
+}
+
+.result-comment {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  right: 0;
+}
+
+/*----------------------------------------------------------*/
+/* timeline */
+/*----------------------------------------------------------*/
+.result-box {
+  padding: 2%;
+}
+
+.result-box h2 {
+  padding: 0 0 10px 0;
+  font-size: 1.2rem;
+  color: #333333;
+  border-bottom: solid 1px #333333;
+}
+
+.userdata {
+  display: flex;
+  align-items: center;
+}
+
+.userdata img {
+  width: 40px;
+  height: 40px;
+  margin: 0 1% 0 0;
+}
+
+.result-status {
+  white-space: nowrap;
+}
+
+.timestamp {
+  margin-left: 5%;
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+
+.result-table {
+  display: flex;
+  margin: 20px 0 20px 0;
+  padding: 3% 4% 3% 4%;
+  min-height: 200px;
+  height: auto;
+  border: solid 1px #bbb;
+}
+
+.result-image {
+  width: 17%;
+  margin: 0 3% 0 0;
+  /* background-color: #333333; */
+}
+
+.result-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.result-text {
+  width: 80%;
+  position: relative;
+}
+
+.result-title {
+  margin: 0 0 0.5% 0;
+  font-size: 1.1rem;
+}
+
+.result-date {
+  margin: 0 0 1% 0;
+  font-size: 0.9rem;
+}
+
+.result-detail {
+  margin: 0 0 1% 0;
+  font-size: 0.8rem;
+}
+
+.result-place {
+  display: flex;
+  height: auto;
+  font-size: 0.8rem;
+  margin: auto 0 auto 0;
+}
+
+.location-mark {
+  width: 2.5%;
+  height: 100%;
+}
+
+.result-comment {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  right: 0;
+  align-items: center;
+  bottom: 0;
+}
+
+.chat-mark {
+  width: 13%;
+  height: 100%;
+  margin: 0 1% 0 0;
+}
+
+.result-comment p {
+  margin: auto 0 auto 0;
+  text-align: right;
+}
+
+
+
+/* myp独自css */
+
+.nav-tabs .nav-link {
+  border-bottom: 2px solid black !important;
+  /* 通常のタブの枠線を黒に設定 */
+  display: flex;        /* 中央寄せしたい場合 */
+  align-items: center;  /* 縦中央揃え */
+  justify-content: center; /* 横中央揃え */
+  text-align: center;
+}
+
+.nav-tabs .nav-link.active {
+  border-color: black !important;
+}
+
+.mb-0 {
+  margin-bottom: 0px;
+}
+/* 出品と購入のタブで改行する説明は… */
+.kaigyousanten {
+  white-space: nowrap !important;       /* テキストを1行にする */
+  overflow: hidden;          /* はみ出た部分を非表示にする */
+  text-overflow: ellipsis;   /* はみ出たテキストを「…」で表示する */
+}
+/* 出品と購入タブの商品画像の大きさ */
+/* 商品の画像の大きさ */
+.shohin_img{
+  max-height: 120px;
+  object-fit: cover; /* 枠いっぱい表示 */
+}
+
+
+/* 1) タブレット(〜991px) */
+@media (max-width: 991px) {
+  /* 新着部分を画像と要素で横並びから縦へ */
+  .result-table {
+    flex-direction: column;
+  }
+  /* 新着の画像をでかく */
+  .result-image {
+    width: 100%;
+    height: 100px;
+  }
+  /* タイムスタンプは次の行へ */
+  .timestamp {
+    display: block;
+  }
+  .location-mark {
+    width: 8%;
+  }
+}
+
+/* 2) スマホ(〜767px) */
+/* galaxyZfold5 */
+@media (max-width: 767px) {
+}

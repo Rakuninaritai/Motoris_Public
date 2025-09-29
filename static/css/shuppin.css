@@ -1,0 +1,335 @@
+/* ナビゲーションの背景色
+.bg-ccc {
+  background-color: #ccc;
+} */
+/* ナビゲーションの背景色とbtnのhoverがかぶったから色変 */
+/* .hv-888:hover {
+  background-color: #888;
+} */
+/* ハンバーガーメニューの背景 */
+/* .bg-bbb {
+  background-color: #bbb;
+} */
+/* bodyの背景色 */
+/* .bg-eee {
+  background-color: #fff;
+} */
+.list-group-item a{
+  text-align: left;
+}
+
+/* body内の設定 */
+/* main内の設定 */
+.main {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.coverh1{
+  padding: 50px 0;
+  display: flex;
+  justify-content: center;
+}
+
+h1{
+  width: 60%;
+  text-align: center;
+  margin: 0;
+  padding: 0 0 20px 0;
+  border-bottom: 1px solid #000;
+}
+label {
+  display: inline-block;
+  height: 100px;
+  cursor: pointer;
+  margin-top: 16px;
+  color: #fff;
+  border-radius: 10px;
+}
+
+label input {
+  display: none;
+}
+div.iover{
+  width: 100%;
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+}
+button.ibutton{
+  width: 140px;
+  height: 140px;
+  border-radius: 5%;
+  margin: 0 auto;
+  background-color: #fff;
+}
+.over{
+  width: 60%;
+  height: auto;
+  margin: 60px auto;
+  justify-content: center;
+  border: 1px solid #000;
+  box-shadow: 5px 10px 20px rgba(0,0,0,0.25);
+}
+.contena {
+  width: 80%;
+  height: auto;
+  margin: auto;
+  justify-content: center;
+}
+div.shimage{
+  margin: 0 0 60px 0;
+}
+/* 画像プレビュー,編集時登録済み画像*/
+.image-preview,.image-register {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px 5px;
+}
+/* .form-check 内の label は固定高さや余白、文字色をリセット */
+.form-check .form-check-label {
+  height: auto;        /* 固定高さを解除 */
+  margin-top: 0;       /* 余計な上部マージンをリセット */
+  color: #000;         /* 文字色を黒に戻す（背景に合わせて調整） */
+  line-height: normal; /* 行の高さを標準に */
+  vertical-align: middle;
+  pointer-events: auto; /* クリック可能に */
+}
+.image-preview-item{
+  width: 50%;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  border: 1px solid #c0c0c0;
+}
+.img-thumbnail{
+  width: auto;
+  height: 100%;
+  padding: none !important;
+}
+
+div.shinfo,div.shsubinfo{
+  margin: 40px 0 60px 0;
+}
+hr.line{
+  border: none;
+  border-top: 4px dotted #000;
+}
+p.nakami {
+  justify-content: center;
+  align-items: center;
+}
+p.tag1,p.tag2{
+  font-size: 20px;
+  margin: 30px 0 0 0;
+  font-weight: bold;
+}
+p.tag1::after{
+  content: "必須";
+  background-color: #f0ad4e;
+  color: #fff;
+  font-size: 12px;
+  margin: 0px 5px;
+  padding: 3px 5px;
+  line-height: 1;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-align: center;
+  display: inline-block;
+  font-weight: bold;
+  border-radius: 5px;
+  transform: translateY(-10%);
+}
+span.hisu {
+  color: #fff;
+  background-color: red;
+  padding: 2px;
+  margin: 10px;
+  font-weight: 400;
+  border-radius: 5px;
+}
+.syubtn {
+display: block;
+  color: #fff;
+  width: 100px;
+  padding: 10px 20px;
+  margin: 60px auto;
+  font-weight: 800;
+  background-color: red;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 10px;
+}
+div.tover{
+  display: flex;
+  justify-content: center;
+}
+p.tuite {
+  margin: 0;
+  font-weight: bold;
+  font-size: 25px;
+  background-clip: padding-box;
+  border-bottom: 1px solid rgb(0, 0, 0, .2);
+}
+
+input,select{
+  border-radius: 5px;
+  border: 1px solid #000;
+  height: 35px;
+}
+input.setu{
+  width: 100%;
+  height: 150px;
+}
+.text {
+  width: 100%;
+  margin: 0;
+}
+.pull {
+  width: 100%;
+  margin: 5px;
+}
+textarea {
+  width: 100%;
+  height: 200px;
+  resize: none;
+  border-radius: 10px;
+}
+.photo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000;
+}
+
+a {
+  text-align: center;
+}
+
+.ncontainer{
+  width: 60%;
+  margin: 70px auto 0 auto;
+}
+.kover{
+  width: 100%;
+  height: auto;
+  margin: 15px 0;
+  display: flex;
+  justify-content: space-between;
+}
+.nleft{
+  width: 25%;
+}
+.ncenter{
+  width: 10%;
+}
+.nright{
+  width: 65%;
+}
+.label1{
+  height: auto;
+  font-size: 20px;
+  margin: 0;
+  text-align: justify;
+  text-align-last: justify;
+}
+.label2{
+  height: auto;
+  font-size: 20px;
+  margin: 0;
+  word-break: break-all;
+
+}
+.label3{
+  height: auto;
+  font-size: 20px;
+  margin: 0;
+  text-align: center;
+}
+
+footer {
+  display: none;
+}
+
+/* integerfieldのスピンボタン非表示 */
+input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* 子要素を縦横中央に配置して、縦並び */
+/* mainのcontainarのbtnの色とhover (ログイン)*/
+.bg-777 {
+  background-color: #777777;
+/* 色はaのstyleで変更できるがhoverはできないので、hoverだけclassにするとstyleの方が強いので(順関係なく)hover前のbgもclassに */
+}
+.bg-777:hover {
+  background-color: #ccc;
+}
+/* コンテナの右下の車をhoverで動かすやつ */
+.car:hover {
+/* 0.5秒で滑らかに(ease)(-330px,0px)の位置に動く */
+  transform: translate(-330px, 0);
+  transition: transform 0.5s ease;
+}
+
+
+/* 1) タブレット(〜991px) */
+@media (max-width: 991px) {
+
+}
+
+/* 2) スマホ(〜767px) */
+@media (max-width: 767px) {
+  .over{
+    width: 100%;
+    margin: 0;
+  }
+  h1{
+    width: 70%;
+    padding: 0 0 10px 0;
+  }
+  
+  button.ibutton {
+    width: 120px;
+    height: 120px;
+  }
+  div.shimage{
+    margin: 0 0 50px 0 ;
+  }
+
+  /* 確認ページ */
+  .contena {
+    width: 65%;
+  }
+
+  .ncontainer {
+    width: 100%;
+  }
+  .nleft {
+    width: 30%;
+  }
+  .ncenter {
+    width: 10%;
+  }
+  .nright {
+    width: 60%;
+  }
+  .label1{
+    font-size: 1.1rem;
+  }
+  .label2{
+    font-size: 1.1rem;
+  }
+  .label3{
+    font-size: 1.1rem;
+  }
+  }

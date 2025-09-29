@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% load purchasetuika %}
+{% load static %}
+{% comment %} カンマ区切りでいる値段の {% endcomment %}
+{% load humanize %}
+<!--htmlのtitleに商品名を表示させる(binfo以外は外部キー対応)-->
+{% block title %}決済|
+    {% if product.class_name == 'BInfoModel' %}
+        {% KMN_mzsu product.modelname %}
+    {% else %}
+        {% KMN_mzsu product.modelname.name %}
+    {% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/payment.css' %}" />
+{% endblock %}
+
+{% block content %}
+      <!-- この中変更お願いします -->
+      <div class="payment_box ">
+        <div class="logo vigi"><img src="{% static 'images/logo.png' %}"></div>
+        {% if product.class_name == 'BInfoModel' %}
+        <div class="product_name"><p class="product_text">{% KMN_mzsu product.modelname %}</p></div>
+        {% else %}
+        <div class="product_name"><p class="product_text">{% KMN_mzsu product.modelname.name %}</p></div>
+        {% endif %}
+        <div class="product_fee"><p class="product_text">¥{{product.price|intcomma}}</p></div>
+        <div class="product_ymd"><p class="product_text">支払い期限 {{kigen}}</p></div>
+        <div class="cards"><img src="{% static 'images/cards.jpg' %}"></div>
+        <!--引っ張ってきたformにエラーがあれば-->
+        {% if form.errors %}
+        <div class="alert alert-danger" >
+            <strong>エラー</strong>
+            <hr>
+            <!--各フィールドを引っ張ってくる(エラーがないと""で表示なし)-->
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <p>{{ field.label }}: {{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+      {% endif %}
+        <form method="post" action="{%url 'product_purchase' product.class_name  product.id %}">
+            {% csrf_token %}
+            <div class="input_box">
+                <p class="input_name">カード番号</p>
+                {{form.card_number}}
+            </div>
+            <div class="row_box">
+                <div class="input_box">
+                    <p class="input_name">有効期限(月/年)</p>
+                    {{form.ketu_month}}
+                      /
+                    {{form.ketu_year}}
+                </div>
+                <div class="input_box">
+                    <p class="input_name">セキュリティコード</p>
+                    {{form.sec_code}}
+                </div>
+            </div>
+            <div class="input_box">
+                <p class="input_name">カード名義人</p>
+                {{form.card_meinin}}
+            </div>
+            <div class="button_box"><input type="submit" class="input_button mb-3" value="お支払い"></div>
+        </form>
+      </div>
+      {% endblock %}
+

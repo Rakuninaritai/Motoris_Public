@@ -1,0 +1,98 @@
+.payment_box{
+    width: 25%;
+    height: calc(100vh-50px);
+    margin: 0 auto;
+}
+
+.logo{
+    margin: 40px 0 20px 0;
+    text-align: center;
+}
+.logo img{
+    width: 60%;
+}
+
+.product_text{
+    text-align: center;
+    margin: 0;
+}
+
+.product_name{
+    font-size: 1.2rem;
+}
+
+.product_fee{
+    margin: 10px 0 10px 0;
+    font-size: 2.2rem;
+}
+
+.product_ymd{
+    font-size: 0.9rem;
+}
+
+.cards{
+    text-align: center;
+}
+.cards img{
+    width: 70%;
+}
+
+input[type="text"]{
+    width: 100%;
+    height: 2rem;
+    padding: 5px;
+    border: solid 1.5px #000 ;
+}
+/* 有効期限にもsolidを */
+select{
+    border: solid 1.5px #000 ;
+
+}
+.input_box{
+    margin: 10px 0 10px 0;
+}
+
+.input_name{
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.row_box{
+    display: flex;
+    justify-content: space-between;
+}
+
+.button_box{
+    margin: 40px 0 0 0;
+    text-align:center;
+}
+.input_button{
+    color: #fff;
+    background-color: #4169E1;
+}
+input[type="submit"]{
+    padding: 5px 30px 5px 30px;
+    font-weight: bold;
+
+}
+input[type="submit"]:hover{
+    opacity: 0.8;
+}
+
+/* 1) タブレット(〜991px) */
+@media (max-width: 991px) {
+    /* 有効期限とsecコードを上下に */
+    .row_box{
+        display: block;
+    }
+  }
+  
+  /* 2) スマホ(〜767px) */
+  /* galaxyZfold5 */
+  @media (max-width: 767px) {
+    /* 高さを確保し幅を広げた */
+    .payment_box{
+        height: 80.5vh;
+        width: 50%;
+    }
+  }

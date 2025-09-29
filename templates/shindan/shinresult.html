@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}乗り物診断{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/shindan.css' %}" />
+{% endblock %}
+
+
+
+{% block content %}
+    {% comment %} <main class="d-flex main"> {% endcomment %}
+    <div class="fccc align-items-center  ">
+      <!-- mainのコンテナの -->
+      <div class="container bg-white main-containar m-3">
+        <!-- ロゴとログイン -->
+        <div class="mb-1 fccc ">
+          <!-- ↓ロゴ -->
+          <img
+            class=""
+            src="{% static 'images/logo.png' %}"
+            width="260px"
+            height="60px"
+            alt=""
+          />
+        </div>
+
+
+<!--診断結果-->

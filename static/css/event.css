@@ -1,0 +1,875 @@
+/* リンクのテキストを白にする */
+a {
+    color: black;
+    text-decoration: none;
+    /* リンクの下線を消す（任意） */
+}
+
+main {
+    /* padding: 50px 0 0 0; */
+}
+
+
+
+
+
+/*----------------------------------------------------------*/
+/*　イベント一覧 - event_list　 */
+/*----------------------------------------------------------*/
+/* フォント関連 */
+.description-text {}
+
+.description-text p {
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+.page-title {
+    padding: 10px;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+/* レイアウト関連 */
+.main-box {
+    width: 70%;
+    padding: 0 0 50px 0;
+    margin: 0 auto 100px auto;
+    border-bottom: 1.5px solid #eee;
+}
+
+/* 絞り込み検索関連*/
+.search-box {
+    margin: 40px auto 40px auto;
+    padding: 15px;
+    position: relative;
+    background-color: #dddddd;
+    border-radius: 2px;
+}
+
+.search-box h2 {
+    font-size: 1.1rem;
+    color: #333333;
+}
+
+.search-button {
+    padding: 5px 20px 5px 20px;
+    position: absolute;
+    right: 20px;
+    top: 5px;
+    background-color: #ffffff;
+    border: solid 1px #ffffff;
+    border-radius: 10px;
+}
+
+.search-list {
+    display: flex;
+    margin: 10px 0 0 0;
+    padding: 10px;
+    background-color: #ffffff;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+.search-list form {
+    display: flex;
+    width: 70%;
+}
+
+.search-list-item {
+    display: flex;
+    width: 350px;
+}
+/* イベント検索ページレスポンシブ */
+@media (max-width: 768px) {
+    /* form内の要素を縦並びに変更 */
+    .search-list form {
+      flex-direction: column;
+      align-items: center;
+    }
+    /* 各検索項目の幅を調整＆下マージンを追加 */
+    .search-list-item {
+      width: 100%;
+      margin-bottom: 10px;
+      justify-content: center;
+    }
+    /* ボタンの位置を静的にして、上部に余白を追加 */
+    .search-button {
+      position: static;
+      margin-top: 10px;
+    }
+  }
+.search-list h3 {
+    margin: auto 5% auto 5%;
+    font-size: 1.1rem;
+    color: #333333;
+}
+
+#id_region,
+#id_year_month {
+    width: 150px;
+    margin: 0 15% 0 0;
+}
+
+/* イベントの一覧表示　*/
+.result-box {
+    padding: 2%;
+    border: solid 1px #000000
+}
+
+.result-box h2 {
+    padding: 0 0 10px 0;
+    font-size: 1.2rem;
+    color: #333333;
+    border-bottom: solid 1px #333333;
+}
+
+.result-table {
+    display: flex;
+    margin: 20px 0 20px 0;
+    padding: 3% 4% 3% 4%;
+    height: 200px;
+    border: solid 1px #bbb;
+}
+
+.result-image {
+    width: 17%;
+    margin: 0 3% 0 0;
+    /* background-color: #333333; */
+}
+
+.result-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.result-text {
+    width: 80%;
+    position: relative;
+}
+
+.result-title {
+    margin: 0 0 0.5% 0;
+    font-size: 1.1rem;
+}
+
+.result-date {
+    margin: 0 0 1% 0;
+    font-size: 0.9rem;
+}
+
+.result-detail {
+    margin: 0 0 1% 0;
+    font-size: 0.8rem;
+}
+
+.result-place {
+    display: flex;
+    font-size: 0.8rem;
+}
+
+.location-mark {
+    width: 2.5%;
+}
+
+.result-place {
+    margin: auto 0 auto 0;
+}
+
+.result-comment {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    right: 0;
+}
+
+.chat-mark {
+    width: 10%;
+    margin: 0 1% 0 0;
+}
+
+.result-comment p {
+    margin: auto 0 auto 0;
+    text-align: right;
+}
+
+
+
+
+
+
+/*----------------------------------------------------------*/
+/*　イベント投稿 - event_create */
+/*----------------------------------------------------------*/
+
+/* font */
+.coverh1 {
+    padding: 50px 0;
+    display: flex;
+    justify-content: center;
+}
+
+#event_create h1 {
+    width: 60%;
+    text-align: center;
+    margin: 0;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid #000;
+}
+
+p.text-title {
+    margin-top: 16px;
+    font-weight: bold;
+    font-size: 25px;
+    background-clip: padding-box;
+    border-bottom: 1px solid rgb(0, 0, 0, .2);
+}
+
+p.text-tag {
+    font-size: 20px;
+    margin: 30px 0 0 0;
+    font-weight: bold;
+}
+
+/* レイアウト関連 */
+#event_create {
+    width: 60%;
+    margin: 0 auto;
+}
+
+#event_create .over {
+    height: auto;
+    margin: 60px auto;
+    justify-content: center;
+    border: 1px solid #000;
+    box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+#event_create .container {
+    width: 80%;
+    height: auto;
+    margin: auto;
+    justify-content: center;
+}
+
+#event_create .coverh1 {
+    padding: 50px 0;
+    display: flex;
+    justify-content: center;
+}
+
+#event_create div.info {
+    margin: 40px 0 60px 0;
+}
+
+div.iover {
+    width: 100%;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+
+button.ibutton {
+    width: 140px;
+    height: 140px;
+    border-radius: 5%;
+    margin: 0 auto;
+    background-color: #fff;
+}
+
+div.tover {
+    display: flex;
+    justify-content: center;
+}
+
+.image-preview {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 5px;
+}
+
+.image-preview-item {
+    width: 50%;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
+    border: 1px solid #c0c0c0;
+}
+
+.thumbnail {
+    width: auto;
+    height: 100%;
+    padding: none !important;
+}
+
+
+/* コンポーネント関連 */
+hr.dotted-line {
+    border: none;
+    border-top: 4px dotted #000;
+}
+
+.listing_btn {
+    display: block;
+    color: #fff;
+    width: 100px;
+    padding: 10px 20px;
+    margin: 60px auto;
+    font-weight: 800;
+    background-color: red;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* formのスタイル */
+#event_create input,
+select {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #000;
+    height: 35px;
+}
+
+#event_create textarea {
+    /* 説明（1000文字まで）*/
+    width: 100%;
+    height: 200px;
+    resize: none;
+    border-radius: 10px;
+}
+
+
+
+/*----------------------------------------------------------*/
+/* イベント詳細　- event_detail */
+/*----------------------------------------------------------*/
+.event-detail {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.event-detail .wrapper {
+    max-width: none !important;
+    margin: 75px 7.5% 0 7.5%;
+    display: flex;
+}
+
+/* .event-detail .container {
+    margin: 75px auto 0 auto;
+    display: flex;
+} */
+
+.event-detail .container{
+    width: 100%;
+    height: auto;
+    margin: 15px 0;
+    padding: 0;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-around;
+}
+.left{
+    width: 60%;
+    height: 600px;
+    padding: 0 3%;
+    background-color: #fff;
+    border: 3px solid #000;
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.35);
+}
+.left .lup{
+    width: 100%;
+    height: 50%;
+}
+.left .lup .llup{
+    width: 100%;
+    height: 30%;
+    display: flex;
+}
+.left .lup .llup .title{
+    width: 60%;
+    height: 100%;
+    background-color: #fff;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.left .lup .llup .title .tp{
+    font-size: clamp(1.563rem, 1.25rem + 1vw, 2.188rem);
+    border-bottom: 2px solid #000;
+}
+.left .lup .llup .sanka{
+    width: 40%;
+    height: 100%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.left .lup .llup .sanka .entry-box{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+.left .lup .llup .sanka .entry-box form{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.left .lup .llup .sanka .entry-box form button{
+    width: 100%;
+    height: 80%;
+    margin: 0;
+    background-color: red;
+    font-size: clamp(0.5rem, 0.25rem + 0.8vw, 1rem);
+}
+.left .lup .llup .sanka .entry-box .sankap{
+    width: 50%;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.left .lup .llup .sanka .entry-box .sankap p{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: clamp(0.625rem, 0.438rem + 0.6vw, 1rem);
+}
+.left .lup .lldown{
+    width: 100%;
+    height: 70%;
+    padding: 2%;
+    border: 4px dotted #bbb;
+    border-radius: 15px;
+}
+.left .lup .lldown .lldup{
+    width: 100%;
+    height: 40%;
+}
+.left .lup .lldown .lldup .line{
+    width: 100%;
+    height: 33%;
+    display: flex;
+}
+.left .lup .lldown .lldup .line .llabel{
+    width: 15%;
+    height: 100%;
+}
+.left .lup .lldown .lldup .line .llabel .llp{
+    width: 100%;
+    font-size: clamp(0.75rem, 0.563rem + 0.6vw, 1.125rem);
+    text-align: justify;
+    text-align-last: justify;
+}
+.left .lup .lldown .lldup .line .lcolon{
+    width: 2%;
+    height: 100%;
+}
+.left .lup .lldown .lldup .line .lcolon .lcp{
+    font-size: clamp(0.75rem, 0.563rem + 0.6vw, 1.125rem);
+}
+.left .lup .lldown .lldup .line .linfo{
+    width: 83%;
+    height: 100%;
+}
+.left .lup .lldown .lldup .line .linfo .lip{
+    font-size: clamp(0.75rem, 0.563rem + 0.6vw, 1.125rem);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.left .lup .lldown .llddown{
+    width: 100%;
+    height: 60%;
+}
+.left .lup .lldown .llddown .eline{
+    display: flex;
+}
+.left .lup .lldown .llddown .eline .llabel{
+    width: 15%;
+    height: 100%;
+}
+.left .lup .lldown .llddown .eline .llabel .llp{
+    width: 100%;
+    font-size: clamp(0.75rem, 0.563rem + 0.6vw, 1.125rem);
+    text-align: justify;
+    text-align-last: justify;
+}
+.left .lup .lldown .llddown .eline .lcolon{
+    width: 2%;
+    height: 100%;
+}
+.left .lup .lldown .llddown .eline .lcolon .lcp{
+    font-size: clamp(0.75rem, 0.563rem + 0.6vw, 1.125rem);
+}
+.left .lup .lldown .llddown .eline .linfo{
+    width: 83%;
+    height: 100%;
+}
+.left .lup .lldown .llddown .eline .linfo .lip{
+    font-size: clamp(0.75rem, 0.563rem + 0.6vw, 1.125rem);
+}
+.left .ldown{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+}
+.right{
+    width: 462px;
+    /* width: 35%; */
+    height: 600px;
+    border-radius: 20px;
+    border: 5px solid #000;
+    background-color: #fff;
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+.right .rup{
+    width: 100%;
+    height: 8%;
+    background-color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.right .rup p{
+    font-size: 25px;
+}
+.right .rcenter{
+    width: 100%;
+    height: 84%;
+    background-color: #eee;
+}
+.right .rcenter ul{
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+.right .rcenter ul .comment{
+    width: 100%;
+    height: auto;
+    padding: 0;
+}
+.right .rcenter ul .comment li{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+.right .rcenter ul .comment li .clup{
+    width: 100%;
+    height: 50px;
+    display: flex;
+}
+.right .rcenter ul .comment li .clup .cicon{
+    width: 15%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.right .rcenter ul .comment li .clup .cicon a{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px
+}
+.right .rcenter ul .comment li .clup .cuser{
+    width: 85%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.right .rcenter ul .comment li .clup .cuser .cpuser{
+    font-size: 25px;
+}
+.right .rcenter ul .comment li .cldown{
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+.right .rcenter ul .comment li .cldown .empty{
+    width: 15%;
+    height: 100%;
+}
+.right .rcenter ul .comment li .cldown .ctext{
+    width: 85%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+    background-color: #06c755;
+    border-radius: 20px;
+}
+.right .rcenter ul .comment li .cldown .ctext2{
+    width: 85%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+    background-color: #ccc;
+    border-radius: 20px;
+}
+.right .rcenter ul .comment li .cldown div .ctcontent{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    word-wrap: break-word;
+    white-space: normal;
+}
+.right .rcenter ul .comment li .cldown div .ctcontent .ctpcontent{
+    font-size: 20px;
+    margin: 0.5rem 0;
+}
+.right .rcenter ul .comment li .cldown div .cimage{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    aspect-ratio: 16 / 9;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.right .rcenter ul .comment li .cldown div .cimage img{
+    height: 100%;
+}
+.right .rcenter ul .comment li .cldown div .notp{
+    margin: 0;
+}
+.right .rcenter ul .comment li .cldown .ctext .delete-btn-container{
+    width: 100%;
+    height: 100%;
+}
+.right .rcenter ul .comment li .cldown .ctext .delete-btn-container form{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.right .rcenter ul .comment li .cldown .ctext .delete-btn-container form button{
+    width: 30px;
+    height: 30px;
+    background-color: #06c755;
+    margin: 10px 0 0 0;
+    padding: 0;
+    border: none;
+}
+.right .rcenter ul .comment li .cldown .ctext .delete-btn-container form button .dimg{
+    aspect-ratio: 1 / 1;
+    height: 30px;
+}
+.right .rdown{
+    width: 100%;
+    height: 8%;
+    background-color: #fff;
+}
+.right .rdown form{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.right .rdown form .rdicon{
+    width: 10%;
+    height: 100%;
+}
+.right .rdown form .rdicon .ia{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.right .rdown form .rdtext{
+    width: 70%;
+    height: 100%;
+}
+.right .rdown form .rdtext #id_content{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.right .rdown form .rdimage{
+    width: 10%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.right .rdown form .rdimage .ibutton{
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+.right .rdown form .rdimage .ibutton .rdimg{
+    width: 80%;
+    height: auto;
+}
+/* .right .rdown form .rdimage .form-control{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+} */
+.right .rdown form .rdbutton{
+    width: 10%;
+    height: 100%;
+}
+.right .rdown form .rdbutton button{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+.right .rdown form .elsediv{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.right .rdown form .elsediv .elsep{
+    font-size: 20px;
+}
+.img-box {
+    width: 100%;
+    height: 95%;
+    /* padding: 2%; */
+}
+
+.img-box img {
+    width: 100%;
+    object-fit: contain;
+}
+
+.swiper{
+    height: 100%;
+}
+
+.swiper--wrapper {
+    /* wrapperのサイズを調整 */
+    width: 100%;
+    height: 300px;
+}
+
+.swiper-slide {
+    /* スライドのサイズを調整、中身のテキスト配置調整、背景色 */
+    color: #ffffff;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    line-height: 300px;
+}
+
+/* タイトル開催日など　右側 */
+.event-detail .info-box {
+    width: 47%;
+    margin: 0 0 0 3%;
+}
+
+.event-detail h2 {
+    margin: 0 0 20px 0;
+    font-size: 1.8rem;
+    Letter-spacing: 5px;
+}
+
+.info-content {
+    border: solid 2px #aaaaaa;
+    padding: 3% 5% 5% 3%;
+    display: flex;
+}
+
+.event-detail p {
+    margin: 10px 0 10px 0;
+}
+
+.info-label {
+    width: 30%;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.info-text {
+    width: 70%;
+    font-size: 1.2rem;
+}
+
+.entry-box {
+    display: flex;
+    margin: 20px 0 20px 0;
+}
+
+.event-entry-btn {
+    margin: 0 10px 0 0;
+    padding: 15px;
+    background-color: lightblue;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.event-entry-btn:hover {
+    opacity: 0.5;
+}
+
+#show-entry-text {
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+/* 詳細説明 */
+.description-box {
+    margin: 0 7.5% 50px 7.5%;
+    /* padding: 15px; */
+    /* border: solid 2px #aaaaaa; */
+}
+
+.description-box h3 {
+    margin: 0 0 5px 0;
+    padding: 0 0 5px 0;
+    font-size: 1.1rem;
+    /* border-bottom:  solid 1px #aaaaaa; */
+    color: #333333;
+}
+
+.description-text {
+    padding: 20px;
+    border: solid 2px #aaaaaa;
+}
+
+@media (max-width: 1400px) {
+    .container{
+        display: flex;
+        flex-direction: column;
+    }
+    .left{
+        width: 100%;
+    }
+    .right{
+        width: 100%;
+        margin-top: 50px;
+    }
+}

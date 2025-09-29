@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}このページはアクセスできません{% endblock %}
+
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/account.css' %}">
+{% endblock %}
+
+
+
+{% block content %}
+<div class="fccc align-items-center">
+<div class="container-fluid bg-white main-containar m-3 box404">
+  <!-- ロゴとログイン -->
+  <div class="fccc logo-login">
+    <!-- ロゴ -->
+    {% comment %} <img class="mb-1 vlgi" src="{% static 'images/logo.png' %}" width="350px" height="auto" alt="" /> {% endcomment %}
+    <!-- ログインの文字 -->
+    <h2 class="error404">404</h2>
+    <h3 class="errortext">NOT FOUND</h3>
+  </div>
+
+
+
+  <!-- 404 -->
+  <div>
+    <div class="errortext2"><h1>お探しのページが見つかりませんでした。</h1></div>
+    <div class="mb-5 errortext3"><p>このページは存在しません。商品が消されたか、ユーザーがいません。</p></div>
+  </div>
+
+  <div class="errortopbox">
+    <a href="{% url 'top' %}" class="errortop">
+      TOPへ
+    </a>
+  </div>
+
+
+  <!-- 車の画像(hoverで走る) -->
+  <div class="ms-auto">
+    <img class="car" src="{% static 'images/car.png' %}" alt="" />
+  </div>
+</div>
+</div>
+
+{% endblock %}

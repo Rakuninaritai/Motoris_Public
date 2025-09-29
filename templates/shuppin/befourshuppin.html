@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}出品する{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/befourshuppin.css' %}" />
+{% endblock %}
+
+
+
+{% block content %}
+{% comment %} <div class="cover">
+    <a href="{% url 'car' %}" class="a-cmb">
+        <div class="shuppinbutton">
+            <p>車を出品する</P>
+        </div>
+    </a>
+    <a href="{% url 'motercycle' %}" class="a-cmb">
+        <div class="shuppinbutton">
+            <p>バイクを出品する</P>
+        </div>
+    </a>
+    {% comment %} <a href="{% url 'bike' %}" class="a-cmb">
+        <div class="shuppinbutton">
+            <p>自転車を出品する</P>
+        </div>
+    </a>
+</div> {% endcomment %}
+
+<div class="box">
+  
+
+    <h1>出品するタイプを<br class="br">選んでください</h1>
+
+    <div class="carbike-box">
+
+      <div id="bcontainer" class="container car">
+        <a href="{% url 'car' %}">
+          <div class="hcover">
+            <h2 class="ch2">CAR</h2>
+          </div>
+          <div class="img-box"><img src="{% static 'images/car_btn.png' %}"></div>
+        </a>
+      </div>
+
+      <div id="bcontainer" class="container bike">
+        <a href="{% url 'motercycle' %}">
+          <div class="hcover">
+            <h2 class="mh2">BIKE</h2>
+          </div>
+          <div class="img-box"><img src="{% static 'images/bike_btn.png' %}"></div>
+        </a>
+      </div>
+
+      <div id="bcontainer" class="container bicycle">
+        <a href="{% url 'bike' %}">
+          <div class="hcover">
+            <h2 class="bh2">BICYCLE</h2>
+          </div>
+        <div class="img-box"><img src="{% static 'images/bycle_btn.png' %}"></div>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+{% endblock %}

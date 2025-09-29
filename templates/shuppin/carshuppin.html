@@ -1,0 +1,356 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {% if not edit %}
+    車出品
+    {% else %}
+      車編集
+  {% endif %}
+{% endblock %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/shuppin.css' %}" />
+<script src="{% static 'js/bari/shuppin.js' %}" defer></script>
+{% endblock %}
+
+
+<!--車の作成と編集を1枚のhtmlにしましたif editで条件分岐させてます-->
+{% block content %}
+  <div class="over">
+    <div class="contena">
+      <div class="coverh1">
+        {% if not edit %}
+            <h1>車を出品する</h1>
+          {% else %}
+            <h1>車を編集する</h1>
+        {% endif %}
+      </div>
+      <form id="car-form" action="" method="POST" enctype="multipart/form-data" style="margin: 10px;" novalidate>
+        <div class="shimage">
+          <div class="tover">
+              <p class="tuite">出品画像</p>
+          </div>
+          <div hidden>{{ form }}</div>
+          {% csrf_token %}
+          {{ form.management_form }}
+          <!--編集モードでない(出品時)↓-->
+          {% if not edit %}
+          <div class="iover">
+              <input type="file" multiple accept="image/*" id="multiple-files" style="display:none" required>
+              <button id="fileSelect" class="ibutton" type="button">画像を選択</button>
+          </div>
+          <div class="tover">
+              <p>＜同時に16枚まで写真を選択できます＞</p>
+          </div>
+          <div class="image-preview">
+            <!-- ここに画像のプレビューが表示される -->
+          </div>
+          <!--以下編集時画像編集-->
+            {% else %}
+              <!-- 編集時：追加画像用の入力欄を、出品時と同じ見た目で用意 -->
+              <div class="additional-images">
+                <p>追加画像</p>
+                <div class="iover">
+                  <input type="file" multiple accept="image/*" name="additional_images" id="additional-files" style="display:none">
+                  <button id="additionalFileSelect" class="ibutton" type="button">画像を選択</button>
+                </div>
+              </div>
+              <div class="image-preview">
+                <!-- ここに画像のプレビューが表示される -->
+              </div>
+              <!--DBに保存されている画像の削除先約-->
+              <p>登録済み画像</p>
+              <div class="image-register">
+                {% for form_img in form %}
+                  {% if form_img.instance.files %}
+                    <div class="image-preview-item border ">
+                      <img src="{{ form_img.instance.files.url }}" alt="Image preview" class="img-thumbnail" width="140" >
+                      <div class="form-check d-flex align-items-center justify-content-center">
+                        {{ form_img.DELETE | add_class:"form-check-input" }}
+                        <!--削除ラベル押しても反応するようにしたいけどうまくいかない!!!-->
+                        <label class="form-check-label ms-2" for="{{ form_img.DELETE.id_for_label }}">
+                          削除</label>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+          {% endif %}
+          <span class="error-message" id="file-error" style="color:red;"></span>
+        </div>
+        <hr class="line">
+        <div class="shinfo">
+          <p class="tuite">車情報</p>
+          <div>
+            <p class="tag1">メーカー</p>
+            {{ car_form.maker|add_class:'text' }}
+          </div>
+          <div>
+            <p class="tag1">商品名</p>
+            {{ car_form.modelname|add_class:'text' }}
+          </div>
+          <div class="infole">
+            <p class="tag1">値段</p>
+            <!--編集ページ時｛｛｝｝｛｛｝｝をつかうとそのままデータを引っ張て来れるのでそうします(weightで同じ意味にしてます)nameは.priceで指定済み-->
+            {% comment %} <input type="number" name="price" id="id_price" class="text" title="値段を入力して下さい" required> {% endcomment %}
+            {{ car_form.price|add_class:"text"|attr:"id:id_price"|attr:"type:number"|attr:"title:値段を入力して下さい"|attr:"required:required" }}
+            <span class="error-message" id="price-error" style="color:red;"></span>
+          </div>
+          <div class="syosetu">
+            <p class="tag1">商品の説明（1000文字まで）</p>
+            <!--説明も変更してる-->
+            {% comment %} <textarea cols="400"  name=explanation maxlength="1000" required></textarea> {% endcomment %}
+            {{ car_form.explanation|attr:"cols:400"|attr:"maxlength:1000"|attr:"required:required" }}
+            <span class="error-message" id="explanation-error" style="color:red;"></span>
+          </div>
+        </div>
+        <hr class="line">
+        <div class="shsubinfo">
+          <div>
+            <p class="tuite">商品の詳細</p>
+            <p class="tag1">年式</p>
+            {{ car_form.modelyear|add_class:'text' }}
+            <p class="tag1">ミッション</p>
+            {{ car_form.mission|add_class:'text' }}
+            <p class="tag1">色</p>
+            {{ car_form.color|add_class:'text' }}
+            <p class="tag2">走行距離</p>
+            {{ car_form.mileage|add_class:'text' }}
+            <p class="tag2">ナンバー</p>
+            <input type="number" name="number" id="id_number" class="text" max=4 value="{{ car_form.number.value|default_if_none:'' }}">
+            <p class="tag1">状態</p>
+            {{ car_form.condition|add_class:'text' }}
+            <p class="tag1">車検</p>
+            <input type="month" name="vehicleinspection" value="2024-12" class="text">
+            <p class="tag1">発送元</p>
+            {{ car_form.prefectures|add_class:'text' }}
+          </div>
+        </div>
+        <hr class="line">
+        
+        {% if not edit %}
+          <button id="sending" type="submit" class="syubtn" onclick="multipleFunction()">確認</button>
+          {% else %}
+            <button id="sending" data-edit="true" type="submit" class="syubtn" onclick="return validateAndSubmit();">編集</button>
+        {% endif %}
+        
+      </form>
+      <!--削除用ボタン-->
+        {% if edit %}
+          <form  action="{% url 'car_delete' car.pk %}" method="POST" onsubmit="return confirm('本当に削除してもよろしいですか？');">
+            {% csrf_token %}
+            <button type="submit" class="syubtn delete-btn">この商品を削除</button>
+          </form>
+        {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+
+
+{% block extra_js %}
+  <script type='text/javascript'>
+      function multipleFunction() {
+          for (let i = 0; i < document.getElementById('multiple-files').files.length; i++) {
+              const dt = new DataTransfer();
+              dt.items.add(document.getElementById('multiple-files').files[i]);
+              document.getElementById("id_form-%number-files".replace("%number", i)).files = dt.files;
+          }
+      }
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const makerField = document.getElementById('id_maker');
+        const modelnameField = document.getElementById('id_modelname');
+
+        function updateModelNames() {
+            const maker = makerField.value;
+
+            if (maker) {
+                fetch(`/load-Cmodelnames/?maker=${maker}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        modelnameField.innerHTML = ''; // 既存の選択肢をクリア
+                        data.forEach(option => {
+                            const opt = document.createElement('option');
+                            opt.value = option.id;
+                            opt.textContent = option.name;
+                            modelnameField.appendChild(opt);
+                        });
+                    });
+            }
+        }
+
+        makerField.addEventListener('change', updateModelNames);
+
+      
+      //初期値読み取って変えるよう変更
+      // ページ読み込み時に初期値が存在すれば自動更新
+      if (makerField ) {
+            // もし既に値が設定されていれば更新を実行
+            if (makerField.value ) {
+                updateModelNames();
+            }
+        }
+    });
+  </script>
+</script>
+<script>
+  document.getElementById('id_number').addEventListener('input', function (event) {
+      const maxLength = 4; // 最大桁数
+      const value = event.target.value;
+      if (value.length > maxLength) {
+          event.target.value = value.slice(0, maxLength);
+      }
+  });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("car-form");
+    const fileInput = document.getElementById("multiple-files");
+    const priceInput = document.getElementById("id_price");
+    const explanationTextarea = document.querySelector("textarea[name='explanation']");
+
+    const fileError = document.getElementById("file-error");
+    const priceError = document.getElementById("price-error");
+    const explanationError = document.getElementById("explanation-error");
+
+    form.addEventListener("submit", function (event) {
+        let valid = true;
+        let firstErrorElement = null;
+
+        // Check file input
+        if (fileInput.files.length === 0) {
+            fileError.textContent = "画像を1つ以上選択してください。";
+            valid = false;
+            if (!firstErrorElement) firstErrorElement = fileInput;
+        } else {
+            fileError.textContent = "";
+        }
+
+        // Check price input
+        if (!priceInput.value) {
+            priceError.textContent = "値段を入力してください。";
+            valid = false;
+            if (!firstErrorElement) firstErrorElement = priceInput;
+        } else if (priceInput.value <= 0) {
+            priceError.textContent = "値段は0より大きい値にしてください。";
+            valid = false;
+            if (!firstErrorElement) firstErrorElement = priceInput;
+        } else {
+            priceError.textContent = "";
+        }
+
+        // Check explanation textarea
+        if (!explanationTextarea.value) {
+            explanationError.textContent = "商品の説明を入力してください。";
+            valid = false;
+            if (!firstErrorElement) firstErrorElement = explanationTextarea;
+        } else {
+            explanationError.textContent = "";
+        }
+
+        if (!valid) {
+            event.preventDefault();
+            // Scroll to the first error element
+            if (firstErrorElement) {
+                firstErrorElement.scrollIntoView({ behavior: "smooth", block: "center" });
+                firstErrorElement.focus();
+            }
+        }
+    });
+    
+});
+</script>
+
+<!-- 画像プレビュー　-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  const MAX_FILES = 16; // 規定枚数
+
+  $('#multiple-files').on('change', function(event) {
+    var files = event.target.files;  // 現在選ばれたファイル
+    var previewContainer = $('.image-preview');
+    previewContainer.empty(); // 既存のプレビューをクリア
+
+    // 規定枚数分だけファイルを選択
+    var selectedFiles = Array.from(files).slice(0, MAX_FILES);
+
+    // 新しく追加されたファイルをプレビュー
+    selectedFiles.forEach(function(file) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        previewContainer.append(`
+          <div class="image-preview-item">
+            <img src="${e.target.result}" alt="Image preview" class="img-thumbnail" width="100%">
+          </div>
+        `);
+      };
+      reader.readAsDataURL(file);
+    });
+  // 規定枚数を超えた場合の警告
+  if (files.length > MAX_FILES) {
+    alert(`選択できる画像は最大 ${MAX_FILES} 枚までです。それ以外の画像は無視されます。`);
+    }
+  });
+});
+</script>
+  
+  <script>
+      const fileSelect = document.getElementById("fileSelect");
+      const fileElem = document.getElementById("multiple-files");
+  
+      fileSelect.addEventListener("click", (e) => {
+        if (fileElem) {
+          fileElem.click();
+        }
+      }, false);
+  </script>
+  <script>
+    //編集画像ボタン用
+    document.addEventListener("DOMContentLoaded", function () {
+        // 追加画像用のボタンが存在するか確認
+        const additionalFileSelect = document.getElementById("additionalFileSelect");
+        if (additionalFileSelect) {
+            additionalFileSelect.addEventListener("click", function(e) {
+                const additionalFileElem = document.getElementById("additional-files");
+                if (additionalFileElem) {
+                    additionalFileElem.click();
+                }
+            });
+        }
+      })
+    </script>
+    <script>
+      //編集ボタンプレビュー用
+      $(document).ready(function() {
+        $('#additional-files').on('change', function(event) {
+          var files = event.target.files;  // 現在選ばれたファイル
+          var previewContainer = $('.image-preview');
+          previewContainer.empty(); // 既存のプレビューをクリア
+      
+          // selectedFilesをリセットし、選択されたファイルのみでプレビューを行う
+          var selectedFiles = Array.from(files);
+      
+          // 新しく追加されたファイルをプレビュー
+          selectedFiles.forEach(function(file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+              previewContainer.append(`
+                <div class="image-preview-item">
+                  <img src="${e.target.result}" alt="Image preview" class="img-thumbnail" width="140">
+                </div>
+              `);
+            };
+            reader.readAsDataURL(file);
+          });
+        });
+        
+      });
+      
+      </script>
+{% endblock %}

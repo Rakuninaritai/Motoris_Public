@@ -1,0 +1,447 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/reset.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/event.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/comment.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="event-detail">
+    <div class="container">
+        <div class="left">
+            <div class="lup">
+                <div class="llup">
+                    <div class="title">
+                        <p class="tp">{{ event_post.title }}</p>
+                    </div>
+                    <div class="sanka">
+                        <div class="entry-box">
+                            <form method="post" action="{% url 'enter_event' event_post.id %}">
+                                {% csrf_token %}
+                                {% if is_entry %}
+                                    <button class="event-entry-btn entered-btn" type="button" id="cancel-entry" style="background-color: gray; color: white;">追加済み</button>
+                                {% else %}
+                                    {% if user.is_authenticated %}
+                                        <button class="event-entry-btn" type="submit">参加予定リスト<br>に追加</button>
+                                    {% endif %}
+                                {% endif %}
+                            </form>
+                            <div class="sankap">
+                                <p id="show-entry-text" style="cursor: pointer;">参加予定者: <span id="entry-count">0</span>人</p>
+                            </div>
+                            {% comment %} <ul id="event-entries-list" style="display: none;"> 
+                            <!-- ここにJavaScriptで参加予定者が表示される -->
+                            </ul> {% endcomment %}
+                        </div>
+                    </div>
+                </div>
+                <div class="lldown">
+                    <div class="lldup">
+                        <div class="line">
+                            <div class="llabel">
+                                <p class="llp">開催日</p>
+                            </div>
+                            <div class="lcolon">
+                                <p class="lcp">：</p>
+                            </div>
+                            <div class="linfo">
+                                <p class="lip">{{ event_post.event_date|date:"Y年m月d日" }}</p>
+                            </div>
+                        </div>
+                        <div class="line">
+                            <div class="llabel">
+                                <p class="llp">開催地</p>
+                            </div>
+                            <div class="lcolon">
+                                <p class="lcp">：</p>
+                            </div>
+                            <div class="linfo">
+                                <p class="lip">{{ event_post.address }}</p>
+                            </div>
+                        </div>
+                        <div class="line">
+                            <div class="llabel">
+                                <p class="llp">開催時刻</p>
+                            </div>
+                            <div class="lcolon">
+                                <p class="lcp">：</p>
+                            </div>
+                            <div class="linfo">
+                                <p class="lip">{{ event_post.start_time }} ～ {{ event_post.end_time }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="llddown">
+                        <div class="eline">
+                            <div class="llabel">
+                                <p class="llp">概要</p>
+                            </div>
+                            <div class="lcolon">
+                                <p class="lcp">：</p>
+                            </div>
+                            <div class="linfo">
+                                <p class="lip">{{ event_post.free_text }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ldown">
+                <div class="img-box">
+                    <div class="swiper">
+                        <div class="swiper-wrapper">
+                            {% for image in event_post.images.all %}
+                            <div class="swiper-slide">
+                                <img src="{{ image.image.url }}" alt="Event image">
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="rup">
+                <p>コメント欄</p>
+            </div>
+            <div class="rcenter">
+                <ul>
+                    {% for comment in event_post.comments.all %}
+                    <div class="comment">
+                        <li>
+                            <div class="clup">
+                                <div class="cicon">
+                                    <a href="">
+                                        {% if comment.user.profile.profile_image %}
+                                        <img class="account-btn" src="{{ commen.user.profile.profile_image.url }}"/>
+                                        {% else %}
+                                        <img class="account-btn" src="{% static 'images/default_account.png' %}"/>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                                <div class="cuser">
+                                    <p class="cpuser">{{ comment.user }}</p>
+                                </div>
+                            </div>
+                            <div class="cldown">
+                                <div class="empty">
+                                </div>
+                                {% if user.is_authenticated %}
+                                    {% if comment.user == request.user %}
+                                    <div class="ctext">
+                                        <div class="ctcontent">
+                                            <p class="ctpcontent">{{ comment.content }}</p>
+                                        </div>
+                                        {% if comment.comment_image %}
+                                        <div class="cimage">
+                                            <img src="{{ comment.comment_image.url }}" class="icimage" alt="comment image">
+                                        </div>
+                                        {% else %}
+                                        <p class="notp"></p>
+                                        {% endif %}
+                                        <div class="delete-btn-container">
+                                            <form method="post" action="{% url 'delete_comment' comment.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="delete-btn">
+                                                    <img class="dimg" src="{% static 'images/delete.png' %}"/>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <div class="ctext2">
+                                        <div class="ctcontent">
+                                            <p class="ctpcontent">{{ comment.content }}</p>
+                                        </div>
+                                        {% if comment.comment_image %}
+                                        <div class="cimage">
+                                            <img src="{{ comment.comment_image.url }}" class="icimage" alt="comment image">
+                                        </div>
+                                        {% else %}
+                                        <p class="notp"></p>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+                                {% else %}
+                                <div class="ctext2">
+                                    <div class="ctcontent">
+                                        <p class="ctpcontent">{{ comment.content }}</p>
+                                    </div>
+                                    {% if comment.comment_image %}
+                                    <div class="cimage">
+                                        <img src="{{ comment.comment_image.url }}" class="icimage" alt="comment image">
+                                    </div>
+                                    {% else %}
+                                    <p class="notp"></p>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </li>
+                    </div>
+                    {% empty %}
+                    <li></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="rdown">
+                <form class="commnt-form" method="post" actn="." enctype="multipart/form-data">
+                    {% if user.is_authenticated %}
+                    <div class="rdicon">
+                        <a href="" class="ia">
+                            {% if comment.user.profile.profile_image %}
+                                <img class="account-btn" src="{{ comment.user.profile.profile_image.url }}"/>
+                            {% else %}
+                                <img class="account-btn" src="{% static 'images/default_account.png' %}"/>
+                            {% endif %}
+                        </a>
+                    </div>
+                    {% csrf_token %}
+                    <div class="rdtext">
+                        {{ comment_form.content }}
+                    </div>
+                    <div class="rdimage">
+                        <button id="fileSelect" class="ibutton" type="button">
+                            <img class="rdimg" src="{% static 'images/cammera.png' %}"/>
+                        </button>
+                        <input type="file" name="comment_image" id="id_comment_image" class="form-control" style="display:none">
+                    </div>
+                    <div class="rdbutton">
+                        <button type="submit">投稿</button>
+                    </div>
+                    {% else %}
+                    <div class="elsediv">
+                        <p class="elsep">コメントをするにはログインが必要です</p>
+                    </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ポップアップモーダル -->
+    <div id="participant-popup" class="popup" style="display: none;">
+        <div class="popup-content">
+            <span id="close-popup" class="popup-close">&times;</span>
+            <h2>参加予定者リスト</h2>
+            <ul id="event-entries-list"></ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block extra_js %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const eventId = "{{ event_post.id }}";
+            const showEntryText = document.getElementById("show-entry-text");
+            const entryCount = document.getElementById("entry-count");
+            const popup = document.getElementById("participant-popup");
+            const popupContent = document.getElementById("event-entries-list");
+            const closePopup = document.getElementById("close-popup");
+    
+            // ポップアップを表示する関数
+            function openPopup() {
+                popup.style.display = "block";
+            }
+    
+            // ポップアップを閉じる関数
+            function closePopupHandler() {
+                popup.style.display = "none";
+            }
+    
+            // 参加予定者リストを取得する関数
+            function fetchEntries() {
+                fetch(`/event/${eventId}/entries/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        popupContent.innerHTML = ""; // リストをクリア
+                        entryCount.textContent = data.entries.length; // 参加者数を表示
+                        data.entries.forEach(entry => {
+                            const listItem = document.createElement("li");
+                            listItem.textContent = entry.username;
+                            popupContent.appendChild(listItem);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching entries:', error);
+                    });
+            }
+    
+            // 参加予定者リストをクリックで表示
+            showEntryText.addEventListener("click", function () {
+                fetchEntries();
+                openPopup();
+            });
+    
+            // ポップアップを閉じるイベント
+            closePopup.addEventListener("click", closePopupHandler);
+    
+            // ポップアップの外をクリックしたら閉じる
+            window.addEventListener("click", function (event) {
+                if (event.target === popup) {
+                    closePopupHandler();
+                }
+            });
+        });
+    </script>
+    <script>
+        const swiper = new Swiper(".swiper", {
+            // ページネーションが必要なら追加
+            pagination: {
+                el: ".swiper-pagination"
+            },
+            // ナビボタンが必要なら追加
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev"
+            }
+        });
+    
+        // 参加予定を画面遷移なしで
+        document.addEventListener("DOMContentLoaded", function () {
+            const eventId = "{{ event_post.id }}";  // イベントのIDを取得
+            const entriesList = document.getElementById("event-entries-list");
+            const showEntryText = document.getElementById("show-entry-text");
+            const entryCount = document.getElementById("entry-count");
+    
+            // 参加予定者リストを取得する関数
+            function fetchEntries() {
+                fetch(`/event/${eventId}/entries/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        entriesList.innerHTML = "";  // リストをクリア
+                        entryCount.textContent = data.entries.length;  // 参加者数を表示
+                        data.entries.forEach(entry => {
+                            const listItem = document.createElement("li");
+                            listItem.textContent = entry.username;
+                            entriesList.appendChild(listItem);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching entries:', error);
+                    });
+            }
+    
+            // 参加予定者リストの表示トグル機能
+            showEntryText.addEventListener("click", function() {
+                if (entriesList.style.display === "none") {
+                    entriesList.style.display = "block";  // リストを表示
+                    showEntryText.style.backgroundColor = "rgba(0, 0, 0, 0.1)";  // グレーの背景
+                } else {
+                    entriesList.style.display = "none";  // リストを非表示
+                    showEntryText.style.backgroundColor = "";  // 背景を元に戻す
+                }
+            });
+    
+            // 参加予定をキャンセルする処理
+            document.getElementById('cancel-entry')?.addEventListener('click', function() {
+                fetch(`/event/${eventId}/cancel-entry/`, {
+                    method: 'POST', 
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'  // CSRFトークンを追加
+                    },
+                    body: JSON.stringify({ action: 'cancel' })  // 必要なデータを送信
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // 参加者リストを再取得する前にリロードする
+                        location.reload();  // ページをリロード
+                    }
+                })
+                .catch(error => {
+                    console.error('Error cancelling entry:', error);
+                });
+            });
+    
+            // ページ読み込み時に参加者リストを取得
+            fetchEntries();
+    
+            // 画像プレビューの処理
+            const imageInput = document.getElementById('id_comment_image');
+            const previewContainer = document.querySelector('.image-preview');
+    
+            imageInput.addEventListener('change', function(event) {
+                var files = event.target.files; // 選択されたファイル
+                previewContainer.innerHTML = "";  // 既存のプレビューをクリア
+    
+                // 選択されたファイルをループ処理
+                Array.from(files).forEach(function(file) {
+                    if (!file.type.startsWith('image/')) {
+                        alert('画像ファイルのみ選択できます。');
+                        return;
+                    }
+    
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        // 画像プレビューを追加
+                        previewContainer.innerHTML += `
+                        <div class="image-preview-item">
+                            <img src="${e.target.result}" alt="プレビュー画像" class="img-thumbnail" style="max-width: 100px; max-height: 100px;">
+                        </div>
+                    `;
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+        });
+    </script>
+    <script>
+        const fileSelect = document.getElementById("fileSelect");
+        const fileElem = document.getElementById("id_comment_image");
+    
+        fileSelect.addEventListener("click", (e) => {
+          if (fileElem) {
+            fileElem.click();
+          }
+        }, false);
+    </script>
+    <script>
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function(event) {
+                if (!confirm('このコメントを削除してもよろしいですか？')) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+    <style>
+    .popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .popup-content {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        width: 300px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .popup-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+    </style>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}バイク出品{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/shuppin.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <h1>商品の情報を入力</h1>
+    <div class="contena">
+      <form action="" method="POST" enctype="multipart/form-data" style="margin: 10px;">
+        <p class="tuite">出品画像</p>
+        <div hidden>{{ form }}</div>
+        {% csrf_token %}
+        {{ form.management_form }}
+        <p>＜同時に複数の写真を選択できます＞</p>
+        <input type="file" multiple accept="image/*" id="multiple-files">
+        <p class="tuite">バイク情報</p>
+        <div>
+          <p class="tag">メーカー</p>
+          {% csrf_token %}
+          {{ motorcycle_form.maker }}
+        </div>
+        <div>
+          <p class="tag">商品名</p>
+          <input type="text" class="text" name=modelname>
+        </div>
+        <div class="infole">
+          <p class="tag">値段</p>
+          <input type="text" class="text" name=price>
+        </div>
+        <div class="syosetu">
+          <p class="tuite">商品の説明</p>
+          <textarea cols="400"  name=explanation></textarea>
+        </div>
+        <div>
+          <p class="tuite">商品の詳細</p>
+          <p class="tag">排気量</p>
+          <input type="number" class="pull" name="displacement">
+          <p class="tag">年式</p>
+          <input type="number" class="text" name="modelyear">
+          <p class="tag">走行距離(任意)</p>
+          <input type="number" class="text" name="mileage">
+          <p class="tag">ナンバー(任意)</p>
+          <input type="number" class="text" name="number">
+          <p class="tag">状態</p>
+          <input type="text" class="pull" name="condition">
+          <p class="tag">車検</p>
+          <input type="text" class="text" name="vehicleinspection"> 
+          <p class="tag">発送元</p>
+          <input type="text" class="pull" name="prefectures">
+        </div>
+      </form>
+    </div>
+    <button id="sending" type="submit" class="sending" onclick="multipleFunction()">送信</button>
+    <script type='text/javascript'>
+        function multipleFunction() {
+            for (let i = 0; i < document.getElementById('multiple-files').files.length; i++) {
+                const dt = new DataTransfer();
+                dt.items.add(document.getElementById('multiple-files').files[i]);
+                document.getElementById("id_form-%number-files".replace("%number", i)).files = dt.files;
+            }
+        }
+    </script>    
+{% endblock %}

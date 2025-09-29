@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="product-detail">
+    <h2>{{ product.title }}</h2>
+    <div class="product-image">
+        <img src="{{ product.image.url }}" alt="{{ product.title }}">
+    </div>
+    <p class="product-description">{{ product.free_text }}</p>
+    <p class="product-date">出品日: {{ product.created_at|date:"Y年m月d日" }}</p>
+    <p class="product-location">{{ product.prefecture_field }} - {{ product.address }}</p>
+
+    <form method="post" action="{% url 'product_like' product.id %}">
+        {% csrf_token %}
+        <button type="submit">いいね！</button>
+    </form>
+    
+    <p>いいね数: {{ product.likes.count }}</p>
+
+    <!-- 購入ボタン　-->
+    <form method="post" action="{% url 'product_purchase' product.id %}">
+        {% csrf_token %}
+        <button type="submit">購入する</button>
+    </form>
+    
+    <a href="{% url 'product_purchase' product.id %}" class="btn bg-dark text-white">購入する</a>
+    
+    
+    <!-- コメントセクション -->
+    <div class="comments">
+        <h3>コメント ({{ product.comments.count }})</h3>
+        {% for comment in product.comments.all %}
+            <p>{{ comment.user.username }}: {{ comment.text }}</p>
+        {% empty %}
+            <p>コメントはまだありません。</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
